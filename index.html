@@ -384,7 +384,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 <div class="modal-bg" id="modal-nova-conta"><div class="modal"><div class="modal-hd"><h2>Cadastrar conta bancária</h2><button class="modal-close" onclick="closeModal('modal-nova-conta')">&#x2715;</button></div>
 <div class="notice info" style="margin-bottom:14px"><i class="ti ti-info-circle" style="font-size:16px;flex-shrink:0"></i> O <strong>identificador</strong> é o texto único do nome do arquivo do banco (ex: últimos dígitos da conta). Usado para reconhecimento automático.</div>
 <div class="form-group" style="margin-bottom:10px"><label>Banco</label><select id="nc-banco"><option>Itaú</option><option>Bradesco</option><option>Santander</option><option>Banco do Brasil</option><option>Caixa Econômica</option><option>Sicoob</option><option>Sicredi</option><option>Nubank</option><option>Inter</option><option>BTG</option><option>Outro</option></select></div>
-<div class="form-group" style="margin-bottom:10px"><label>Nome da conta (apelido)</label><input type="text" id="nc-nome" placeholder="Ex: Itaú PETROBOC BH  — cc 12345-6"></div>
+<div class="form-group" style="margin-bottom:10px"><label>Nome da conta (apelido)</label><input type="text" id="nc-nome" placeholder="Ex: Itaú Posto 1 — cc 12345-6"></div>
 <div class="form-group" style="margin-bottom:10px"><label>Agência / Conta</label><input type="text" id="nc-agencia" placeholder="Ex: 0001 / 12345-6"></div>
 <div class="form-group" style="margin-bottom:10px"><label>Empresa vinculada</label><select id="nc-empresa"></select></div>
 <div class="form-group" style="margin-bottom:4px"><label>Identificador automático *</label><input type="text" id="nc-id" placeholder="Texto que aparece no nome do arquivo do banco"></div>
@@ -408,7 +408,7 @@ const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwskqsiGMox3Yxb
 var empresas=[
   {id:0,nome:'PETROBOC BH',tipo:'posto'},{id:1,nome:'EVT',tipo:'posto'},
   {id:2,nome:'PETROBOC III',tipo:'posto'},{id:3,nome:'PETROBOC IV',tipo:'posto'},
-  {id:4,nome:'TRANSPORTADORA',tipo:'transportadora'},{id:5,nome:'CONVENIENCIA ',tipo:'convenencia'},
+  {id:4,nome:'TRANSPORTADORA',tipo:'transportadora'},{id:5,nome:'CONVENIENCIA',tipo:'convenencia'},
   {id:6,nome:'FAZENDA',tipo:'fazenda'},{id:7,nome:'PESSOAL EMERSON',tipo:'pessoal'},
   {id:8,nome:'PESSOAL MARCELA',tipo:'pessoal'},{id:9,nome:'MILETO',tipo:'construtora'}
 ];
@@ -482,7 +482,8 @@ function loadFromCloud(){
       if(d.contasPagar&&d.contasPagar.length)contasPagar=d.contasPagar.map(function(c){c.valor=parseFloat(c.valor||0);c.empresa=parseInt(c.empresa||0);return c});
       if(d.extLancamentos&&d.extLancamentos.length)extLancamentos=d.extLancamentos.map(function(l){l.valor=parseFloat(l.valor||0);l.empresa=parseInt(l.empresa||0);return l});
       if(d.contasBancarias&&d.contasBancarias.length)contasBancarias=d.contasBancarias.map(function(c){c.empresa=parseInt(c.empresa||0);return c});
-      if(d.empresas&&d.empresas.length)empresas=d.empresas.map(function(e){e.id=parseInt(e.id||0);return e});
+      if(d.empresas&&d.empresas.length){var empN=d.empresas.map(function(e){e.id=parseInt(e.id||0);return e});if(empN.some(function(e){return e.nome&&e.nome!==''}))empresas=empN;}
+      if(d.planoContas&&d.planoContas.length){planoContas=d.planoContas.map(function(p){if(typeof p.tipos==='string')p.tipos=p.tipos.split(',');return p});}
       if(d.config&&d.config.length){var g=d.config.find(function(c){return c.chave==='grupoNome'});if(g){document.getElementById('titulo-grupo').textContent='Gestão Financeira — '+g.valor;}}
       populateAll();setSyncStatus('','Dados carregados');
     })
@@ -749,9 +750,39 @@ function perguntarIA(texto){
 }
 function renderCfgEmp(){document.getElementById('cfg-emp-list').innerHTML=empresas.map(function(e,i){return'<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f3f4f6"><span style="font-size:11px;color:#9ca3af;min-width:20px;font-weight:600">'+(i+1)+'.</span><input type="text" value="'+e.nome+'" id="cfg-e-'+i+'" style="flex:1"><span style="font-size:10px;padding:2px 8px;border-radius:20px;background:#EFF6FF;color:#1D4ED8;white-space:nowrap">'+e.tipo+'</span></div>'}).join('')}
 function renderCfgPlano(){document.getElementById('cfg-plano-list').innerHTML=planoContas.map(function(p,i){return'<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #f3f4f6"><input type="text" value="'+p.nome+'" id="cfg-p-'+i+'" style="flex:1"><span style="font-size:10px;padding:2px 8px;border-radius:20px;background:#EFF6FF;color:#1D4ED8;white-space:nowrap">'+p.grupo+'</span><button class="btn danger-btn sm" onclick="removePlano('+i+')"><i class="ti ti-trash" style="font-size:11px"></i></button></div>'}).join('')}
-function salvarGrupo(){var v=document.getElementById('cfg-grupo').value.trim();if(v){document.getElementById('titulo-grupo').textContent='Gestão Financeira — '+v;if(cloudAtivo)fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'saveRow',sheet:'Config',row:['grupoNome',v]})});}showAlert('alert-cfg','Salvo!')}
-function salvarEmpresas(){for(var i=0;i<empresas.length;i++){var v=document.getElementById('cfg-e-'+i);if(v&&v.value.trim())empresas[i].nome=v.value.trim()}populateAll();showAlert('alert-cfg','Empresas salvas!')}
-function salvarPlano(){for(var i=0;i<planoContas.length;i++){var v=document.getElementById('cfg-p-'+i);if(v&&v.value.trim())planoContas[i].nome=v.value.trim()}populateAll();showAlert('alert-cfg','Plano salvo!')}
+function salvarGrupo(){
+  var v=document.getElementById('cfg-grupo').value.trim();
+  if(v){
+    document.getElementById('titulo-grupo').textContent='Gestão Financeira — '+v;
+    if(cloudAtivo){
+      setSyncStatus('syncing','Salvando...');
+      fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'saveAll',data:{Config:[{chave:'grupoNome',valor:v}]}})})
+        .then(function(){setSyncStatus('','Salvo na nuvem')})
+        .catch(function(){setSyncStatus('error','Erro ao salvar')});
+    }
+  }
+  showAlert('alert-cfg','Salvo!');
+}
+function salvarEmpresas(){
+  for(var i=0;i<empresas.length;i++){var v=document.getElementById('cfg-e-'+i);if(v&&v.value.trim())empresas[i].nome=v.value.trim()}
+  if(cloudAtivo){
+    setSyncStatus('syncing','Salvando empresas...');
+    fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'saveAll',data:{Empresas:empresas.map(function(e){return{id:e.id,nome:e.nome,tipo:e.tipo}})}})})
+      .then(function(){setSyncStatus('','Empresas salvas na nuvem')})
+      .catch(function(){setSyncStatus('error','Erro ao salvar')});
+  }
+  populateAll();showAlert('alert-cfg','Empresas salvas!');
+}
+function salvarPlano(){
+  for(var i=0;i<planoContas.length;i++){var v=document.getElementById('cfg-p-'+i);if(v&&v.value.trim())planoContas[i].nome=v.value.trim()}
+  if(cloudAtivo){
+    setSyncStatus('syncing','Salvando plano...');
+    fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'saveAll',data:{PlanoContas:planoContas.map(function(p){return{nome:p.nome,grupo:p.grupo,tipos:p.tipos.join(',')}})})})
+      .then(function(){setSyncStatus('','Plano salvo na nuvem')})
+      .catch(function(){setSyncStatus('error','Erro ao salvar')});
+  }
+  populateAll();showAlert('alert-cfg','Plano salvo!');
+}
 function addPlano(){var n=document.getElementById('novo-plano').value.trim();var g=document.getElementById('novo-plano-grupo').value;if(!n)return;planoContas.push({nome:n,grupo:g,tipos:['todos']});document.getElementById('novo-plano').value='';renderCfgPlano();populateAll()}
 function removePlano(i){planoContas.splice(i,1);renderCfgPlano();populateAll()}
 
