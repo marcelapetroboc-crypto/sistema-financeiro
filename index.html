@@ -450,7 +450,13 @@ var cloudAtivo=APPS_SCRIPT_URL.length>10&&APPS_SCRIPT_URL.indexOf('script.google
 
 function fmt(v){return'R$ '+parseFloat(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}
 function fmtDate(d){if(!d)return'â';if(d.toString().includes('/'))return d;var p=d.toString().split('-');return p[2]+'/'+p[1]+'/'+p[0]}
-function openModal(id){document.getElementById(id).classList.add('open')}
+function openModal(id){
+  document.getElementById(id).classList.add('open');
+  if(id==='modal-novacp'){
+    var empEl=document.getElementById('cp-empresa');
+    if(empEl)updatePlanos('cp-plano',parseInt(empEl.value)||0);
+  }
+}
 function closeModal(id){document.getElementById(id).classList.remove('open')}
 function nomeEmp(i){return empresas[i]?empresas[i].nome:'â'}
 function planosEmp(empId){var t=empresas[empId]?empresas[empId].tipo:'todos';return planoContas.filter(function(p){return p.tipos.indexOf(t)>=0||p.tipos.indexOf('todos')>=0})}
@@ -503,8 +509,13 @@ function populateAll(){
     if(document.getElementById('l-empresa'))document.getElementById('l-empresa').value=lEmpVal;
     if(document.getElementById('cp-empresa'))document.getElementById('cp-empresa').value=cpEmpVal;
     updatePlanos('l-plano',parseInt(lEmpVal)||0);
-    updatePlanos('cp-plano',parseInt(cpEmpVal)||0);
     populateCbSelects();
+    // Atualizar plano do CP com a empresa correta do modal
+    var cpEmpEl=document.getElementById('cp-empresa');
+    if(cpEmpEl){
+      cpEmpEl.value=cpEmpVal;
+      updatePlanos('cp-plano',parseInt(cpEmpVal)||0);
+    }
   }
   ['f-emp','rel-emp','rel-cp-emp'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML='<option value="">Todas</option>'+eo});
   renderDRESelector();renderDash();renderContas();
