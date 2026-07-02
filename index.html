@@ -361,7 +361,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 
 <div class="modal-bg" id="modal-novacp"><div class="modal"><div class="modal-hd"><h2>Nova conta a pagar</h2><button class="modal-close" onclick="closeModal('modal-novacp')">&#x2715;</button></div>
 <div class="form-grid">
-  <div class="form-group"><label>Empresa</label><select id="cp-empresa"></select></div>
+  <div class="form-group"><label>Empresa</label><select id="cp-empresa" onchange="updatePlanos('cp-plano',parseInt(this.value))"></select></div>
   <div class="form-group"><label>Tipo</label><select id="cp-tipo"><option>Fixa</option><option>VariÃ¡vel</option></select></div>
   <div class="form-group"><label>Fornecedor</label><input type="text" id="cp-forn"></div>
   <div class="form-group"><label>Valor (R$)</label><input type="number" id="cp-valor" step="0.01" min="0"></div>
@@ -496,7 +496,9 @@ function populateAll(){
   // Só atualiza selects de modal se não houver modal aberto
   if(!modalAberto){
     ['l-empresa','cp-empresa','nc-empresa'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=eo});
-    updatePlanos('l-plano',0);updatePlanos('cp-plano',0);
+    updatePlanos('l-plano',0);
+    var cpEmp=document.getElementById('cp-empresa');
+    updatePlanos('cp-plano',cpEmp?parseInt(cpEmp.value)||0:0);
     populateCbSelects();
   }
   ['f-emp','rel-emp','rel-cp-emp'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML='<option value="">Todas</option>'+eo});
