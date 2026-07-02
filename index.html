@@ -794,8 +794,30 @@ function salvarPlano(){
   }
   populateAll();showAlert('alert-cfg','Plano salvo!');
 }
-function addPlano(){var n=document.getElementById('novo-plano').value.trim();var g=document.getElementById('novo-plano-grupo').value;if(!n)return;planoContas.push({nome:n,grupo:g,tipos:['todos']});document.getElementById('novo-plano').value='';renderCfgPlano();populateAll()}
-function removePlano(i){planoContas.splice(i,1);renderCfgPlano();populateAll()}
+function addPlano(){
+  var n=document.getElementById('novo-plano').value.trim();
+  var g=document.getElementById('novo-plano-grupo').value;
+  if(!n)return;
+  planoContas.push({nome:n,grupo:g,tipos:['todos']});
+  document.getElementById('novo-plano').value='';
+  if(cloudAtivo){
+    setSyncStatus('syncing','Salvando plano...');
+    fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'saveAll',data:{PlanoContas:planoContas.map(function(p){return{nome:p.nome,grupo:p.grupo,tipos:p.tipos.join(',')}})}})})
+      .then(function(){setSyncStatus('','Plano salvo na nuvem')})
+      .catch(function(){setSyncStatus('error','Erro ao salvar')});
+  }
+  renderCfgPlano();populateAll();
+}
+function removePlano(i){
+  planoContas.splice(i,1);
+  if(cloudAtivo){
+    setSyncStatus('syncing','Salvando plano...');
+    fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'saveAll',data:{PlanoContas:planoContas.map(function(p){return{nome:p.nome,grupo:p.grupo,tipos:p.tipos.join(',')}})}})})
+      .then(function(){setSyncStatus('','Plano salvo na nuvem')})
+      .catch(function(){setSyncStatus('error','Erro ao salvar')});
+  }
+  renderCfgPlano();populateAll();
+}
 
 var now=new Date();document.getElementById('data-atual').textContent=now.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
 document.getElementById('l-data').valueAsDate=now;
