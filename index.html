@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GestÃ£o Financeira â Grupo Empresarial</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
+<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;color:#1a1a1a;background:#f4f5f7;min-height:100vh}
@@ -692,20 +693,149 @@ function handleFile(inp){if(inp.files[0])processFile(inp.files[0]);inp.value=''}
 function processFile(file){
   var prog=document.getElementById('import-progress');var fill=document.getElementById('progress-fill');var label=document.getElementById('progress-label');var result=document.getElementById('import-result');
   prog.style.display='block';result.innerHTML='';
+  fill.style.width='20%';label.textContent='Identificando conta...';
   var conta=function(){var l=file.name.toLowerCase();for(var i=0;i<contasBancarias.length;i++){if(l.includes(contasBancarias[i].identificador.toLowerCase()))return contasBancarias[i]}var s=document.getElementById('imp-conta-sel').value;if(s)return contasBancarias.find(function(c){return c.id===s});return contasBancarias[0]||null}();
-  var steps=[[25,'Identificando conta...'],[50,'Lendo arquivo...'],[75,'Verificando duplicatas...'],[100,'Importando...']];var si=0;
-  var iv=setInterval(function(){if(si>=steps.length){clearInterval(iv);finalizarImport(file,conta,result,prog);return}fill.style.width=steps[si][0]+'%';label.textContent=steps[si][1];si++},380);
+  fill.style.width='50%';label.textContent='Lendo arquivo...';
+  var reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      fill.style.width='75%';label.textContent='Processando lançamentos...';
+      var data=new Uint8Array(e.target.result);
+      var workbook=XLSX.read(data,{type:'array',cellDates:true});
+      var sheet=workbook.Sheets[workbook.SheetNames[0]];
+      var rows=XLSX.utils.sheet_to_json(sheet,{header:1,raw:false,dateNF:'yyyy-mm-dd'});
+      fill.style.width='100%';label.textContent='Importando...';
+      setTimeout(function(){processarLinhas(rows,file,conta,result,prog);},200);
+    }catch(err){
+      prog.style.display='none';
+      result.innerHTML='<div class="notice warn"><i class="ti ti-alert-triangle" style="font-size:16px;flex-shrink:0"></i><div><strong>Erro ao ler arquivo</strong><br>'+err.message+'<br>Verifique se o arquivo é .xls ou .xlsx válido.</div></div>';
+    }
+  };
+  reader.readAsArrayBuffer(file);
 }
-function finalizarImport(file,conta,result,prog){
-  var cId=conta?conta.id:'cb1';var emp=conta?conta.empresa:0;
+
+function parseDataSicoob(val){
+  if(!val)return null;
+  var s=String(val).trim();
+  // Formato DD/MM/YYYY
+  var m=s.match(/^(\d{2})[\/\-](\d{2})[\/\-](\d{4})$/);
+  if(m)return m[3]+'-'+m[2]+'-'+m[1];
+  // Formato YYYY-MM-DD
+  var m2=s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(m2)return m2[1]+'-'+m2[2]+'-'+m2[3];
+  return s;
+}
+
+function parseValorSicoob(val){
+  if(val===null||val===undefined||val==='')return null;
+  var s=String(val).trim().replace(/\s/g,'');
+  // Remover R$ e espaços
+  s=s.replace('R$','').trim();
+  // Formato brasileiro: 1.234,56
+  if(s.match(/^-?[\d\.]+,\d{2}$/)){
+    s=s.replace(/\./g,'').replace(',','.');
+  }
+  var n=parseFloat(s);
+  return isNaN(n)?null:n;
+}
+
+function processarLinhas(rows,file,conta,result,prog){
+  var cId=conta?conta.id:(contasBancarias[0]?contasBancarias[0].id:'cb1');
+  var emp=conta?conta.empresa:0;
   var ex=extLancamentos.filter(function(l){return l.contaId===cId}).map(function(l){return l.descOrig+'|'+l.data});
-  var demos=[{data:'2026-06-02',descOrig:'PIX RECEBIDO DISTRIBUIDORA BR',valor:85000},{data:'2026-06-03',descOrig:'DEB AUT ENERGIA CEMIG',valor:-1840},{data:'2026-06-05',descOrig:'TED ESCRITORIO CONTABIL',valor:-1800},{data:'2026-06-08',descOrig:'PADARIA SAO JOSE',valor:-180},{data:'2026-06-10',descOrig:'PADARIA SAO JOSE',valor:-180},{data:'2026-06-10',descOrig:'TARIFA MANUT CONTA',valor:-45},{data:'2026-06-15',descOrig:'PIX RECEBIDO CLIENTE',valor:15000}];
-  var novos=0;var dups=0;
-  demos.forEach(function(d){var k=d.descOrig+'|'+d.data;if(ex.includes(k)){dups++;return}var l={id:'e'+(nextExtId++),contaId:cId,empresa:emp,data:d.data,descOrig:d.descOrig,descClass:'',valor:d.valor,plano:'',status:'pendente',arquivo:file.name};extLancamentos.push(l);saveToCloud('Extratos',[l.id,l.contaId,l.empresa,l.data,l.descOrig,l.descClass,l.valor,l.plano,l.status,l.arquivo]);ex.push(k);novos++});
+  
+  // Detectar colunas automaticamente
+  var headerRow=-1;
+  var colData=-1,colDesc=-1,colVal=-1,colCred=-1,colDeb=-1;
+  
+  for(var i=0;i<Math.min(rows.length,20);i++){
+    var row=rows[i];
+    if(!row)continue;
+    for(var j=0;j<row.length;j++){
+      var cell=String(row[j]||'').toLowerCase().trim();
+      if(cell.match(/data|dt\.?\s*(lanc|mov|oper)/))colData=j;
+      if(cell.match(/hist[oó]rico|descri[cç][aã]o|lançamento|memo|complemento/))colDesc=j;
+      if(cell.match(/^valor$|valor\s*(r\$|brl)/))colVal=j;
+      if(cell.match(/cr[eé]dito|entrada|credit/))colCred=j;
+      if(cell.match(/d[eé]bito|saida|sa[íi]da|debit/))colDeb=j;
+    }
+    if(colData>=0&&colDesc>=0){headerRow=i;break;}
+  }
+  
+  if(headerRow<0){
+    // Tentar encontrar por padrão de data na coluna
+    for(var i=0;i<Math.min(rows.length,30);i++){
+      var row=rows[i];if(!row||!row.length)continue;
+      for(var j=0;j<row.length;j++){
+        var cell=String(row[j]||'').trim();
+        if(cell.match(/^\d{2}\/\d{2}\/\d{4}$/)&&i>0){
+          headerRow=i-1;
+          colData=j;
+          colDesc=j+1<row.length?j+1:-1;
+          colVal=row.length-1;
+          break;
+        }
+      }
+      if(headerRow>=0)break;
+    }
+  }
+
+  var novos=0,dups=0,erros=0;
+  var dataInicio=null,dataFim=null;
+  
+  for(var i=headerRow+1;i<rows.length;i++){
+    var row=rows[i];
+    if(!row||!row.length)continue;
+    
+    var dataVal=colData>=0?row[colData]:row[0];
+    var descVal=colDesc>=0?row[colDesc]:row[1];
+    var valorVal=null;
+    
+    if(colVal>=0){
+      valorVal=parseValorSicoob(row[colVal]);
+    } else if(colCred>=0||colDeb>=0){
+      var cred=colCred>=0?parseValorSicoob(row[colCred]):null;
+      var deb=colDeb>=0?parseValorSicoob(row[colDeb]):null;
+      if(cred&&cred!==0)valorVal=Math.abs(cred);
+      else if(deb&&deb!==0)valorVal=-Math.abs(deb);
+    } else {
+      // Tentar última coluna numérica
+      for(var j=row.length-1;j>=0;j--){
+        var v=parseValorSicoob(row[j]);
+        if(v!==null){valorVal=v;break;}
+      }
+    }
+    
+    var data=parseDataSicoob(dataVal);
+    var desc=String(descVal||'').trim();
+    
+    if(!data||!desc||valorVal===null)continue;
+    if(!data.match(/^\d{4}-\d{2}-\d{2}/))continue;
+    if(desc.length<2)continue;
+    
+    if(!dataInicio||data<dataInicio)dataInicio=data;
+    if(!dataFim||data>dataFim)dataFim=data;
+    
+    var k=desc+'|'+data;
+    if(ex.includes(k)){dups++;continue;}
+    
+    var l={id:'e'+(nextExtId++),contaId:cId,empresa:emp,data:data,descOrig:desc,descClass:'',valor:valorVal,plano:'',status:'pendente',arquivo:file.name};
+    extLancamentos.push(l);
+    saveToCloud('Extratos',[l.id,l.contaId,l.empresa,l.data,l.descOrig,l.descClass,l.valor,l.plano,l.status,l.arquivo]);
+    ex.push(k);
+    novos++;
+  }
+  
   prog.style.display='none';
-  result.innerHTML='<div class="notice success"><i class="ti ti-check" style="font-size:16px;flex-shrink:0"></i><div><strong>ImportaÃ§Ã£o concluÃ­da!</strong><br>Conta: '+(conta?conta.nome:'identificada automaticamente')+'<br>'+novos+' novos lanÃ§amentos Â· '+dups+' duplicatas ignoradas<br><button class="btn ok sm" style="margin-top:8px" onclick="switchSub(\'ext-class\')">Classificar agora â</button></div></div>';
+  if(novos===0&&dups===0){
+    result.innerHTML='<div class="notice warn"><i class="ti ti-alert-triangle" style="font-size:16px;flex-shrink:0"></i><div><strong>Nenhum lançamento encontrado</strong><br>O sistema não conseguiu identificar as colunas do arquivo. Verifique se é um extrato do Sicoob em formato XLS/XLSX.</div></div>';
+  } else {
+    var periodo=dataInicio&&dataFim?(' · Período: '+fmtDate(dataInicio)+' a '+fmtDate(dataFim)):'';
+    result.innerHTML='<div class="notice success"><i class="ti ti-check" style="font-size:16px;flex-shrink:0"></i><div><strong>Importação concluída!</strong><br>Conta: '+(conta?conta.nome:'identificada automaticamente')+periodo+'<br>'+novos+' novos lançamentos · '+dups+' duplicatas ignoradas<br><button class="btn ok sm" style="margin-top:8px" onclick="switchSub('ext-class')">Classificar agora →</button></div></div>';
+  }
   updateExtStats();renderDash();
 }
+
 function updateExtStats(){
   var t=extLancamentos.length,p=extLancamentos.filter(function(l){return l.status==='pendente'}).length;var d=extLancamentos.filter(function(l){return l.status==='dre'}).length,ig=extLancamentos.filter(function(l){return l.status==='ignorado'}).length;
   document.getElementById('st-total').textContent=t;document.getElementById('st-pend').textContent=p;document.getElementById('st-dre').textContent=d;document.getElementById('st-ign').textContent=ig;document.getElementById('badge-pend-class').textContent=p;
@@ -794,30 +924,8 @@ function salvarPlano(){
   }
   populateAll();showAlert('alert-cfg','Plano salvo!');
 }
-function addPlano(){
-  var n=document.getElementById('novo-plano').value.trim();
-  var g=document.getElementById('novo-plano-grupo').value;
-  if(!n)return;
-  planoContas.push({nome:n,grupo:g,tipos:['todos']});
-  document.getElementById('novo-plano').value='';
-  if(cloudAtivo){
-    setSyncStatus('syncing','Salvando plano...');
-    fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'saveAll',data:{PlanoContas:planoContas.map(function(p){return{nome:p.nome,grupo:p.grupo,tipos:p.tipos.join(',')}})}})})
-      .then(function(){setSyncStatus('','Plano salvo na nuvem')})
-      .catch(function(){setSyncStatus('error','Erro ao salvar')});
-  }
-  renderCfgPlano();populateAll();
-}
-function removePlano(i){
-  planoContas.splice(i,1);
-  if(cloudAtivo){
-    setSyncStatus('syncing','Salvando plano...');
-    fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'saveAll',data:{PlanoContas:planoContas.map(function(p){return{nome:p.nome,grupo:p.grupo,tipos:p.tipos.join(',')}})}})})
-      .then(function(){setSyncStatus('','Plano salvo na nuvem')})
-      .catch(function(){setSyncStatus('error','Erro ao salvar')});
-  }
-  renderCfgPlano();populateAll();
-}
+function addPlano(){var n=document.getElementById('novo-plano').value.trim();var g=document.getElementById('novo-plano-grupo').value;if(!n)return;planoContas.push({nome:n,grupo:g,tipos:['todos']});document.getElementById('novo-plano').value='';renderCfgPlano();populateAll()}
+function removePlano(i){planoContas.splice(i,1);renderCfgPlano();populateAll()}
 
 var now=new Date();document.getElementById('data-atual').textContent=now.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
 document.getElementById('l-data').valueAsDate=now;
