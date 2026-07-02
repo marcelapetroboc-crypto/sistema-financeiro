@@ -492,10 +492,15 @@ function loadFromCloud(){
 
 function populateAll(){
   var eo=empresas.map(function(e,i){return'<option value="'+i+'">'+e.nome+'</option>'}).join('');
-  ['l-empresa','cp-empresa','nc-empresa'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=eo});
+  var modalAberto=document.querySelector('.modal-bg.open');
+  // Só atualiza selects de modal se não houver modal aberto
+  if(!modalAberto){
+    ['l-empresa','cp-empresa','nc-empresa'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=eo});
+    updatePlanos('l-plano',0);updatePlanos('cp-plano',0);
+    populateCbSelects();
+  }
   ['f-emp','rel-emp','rel-cp-emp'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML='<option value="">Todas</option>'+eo});
-  updatePlanos('l-plano',0);updatePlanos('cp-plano',0);
-  populateCbSelects();renderDRESelector();renderDash();renderContas();
+  renderDRESelector();renderDash();renderContas();
 }
 function populateCbSelects(){
   var opts=contasBancarias.map(function(c){return'<option value="'+c.id+'">'+c.nome+'</option>'}).join('');
