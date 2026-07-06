@@ -450,7 +450,7 @@ var baixaTarget=null,classTarget=null,dreEmpAtual=0;
 var cloudAtivo=APPS_SCRIPT_URL.length>10&&APPS_SCRIPT_URL.indexOf('script.google.com')>=0;
 
 function fmt(v){return'R$ '+parseFloat(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}
-function fmtDate(d){if(!d)return'â';if(d.toString().includes('/'))return d;var p=d.toString().split('-');return p[2]+'/'+p[1]+'/'+p[0]}
+function fmtDate(d){if(!d)return'—';var s=d.toString();var clean=s.substring(0,10);if(clean.includes('/'))return clean;var p=clean.split('-');if(p.length===3&&p[0].length===4)return p[2]+'/'+p[1]+'/'+p[0];return clean;}
 function openModal(id){
   document.getElementById(id).classList.add('open');
   if(id==='modal-novacp'){
@@ -493,7 +493,7 @@ function loadFromCloud(){
       if(d.planoContas&&d.planoContas.length){planoContas=d.planoContas.map(function(p){if(typeof p.tipos==='string')p.tipos=p.tipos.split(',');return p});}
       if(d.config&&d.config.length){var g=d.config.find(function(c){return c.chave==='grupoNome'});if(g){document.getElementById('titulo-grupo').textContent='GestÃ£o Financeira â '+g.valor;}}
       populateAll();setSyncStatus('','Dados carregados');
-      verificarRecorrenciasVencendo();
+      setTimeout(verificarRecorrenciasVencendo,3000);
     })
     .catch(function(){setSyncStatus('error','Sem conexÃ£o â dados locais');populateAll()});
 }
@@ -647,7 +647,7 @@ function renderCP(){
     var sc=c.status==='Pago'?'pago':c.status==='Vencido'?'vencido':'pendente';var tc=c.tipo==='Fixa'?'fixa':'variavel';
     var btnBaixa=c.status!=='Pago'?'<button class="btn ok sm" onclick="openBaixa(\''+c.id+'\')">Dar baixa</button>':'<span style="font-size:11px;color:#9ca3af">Pago</span>';
     var btnEdit='<button class="btn sm" style="margin-left:4px" onclick="editarCP(\''+c.id+'\')" title="Editar"><i class="ti ti-pencil"></i></button>';
-    return'<tr><td>'+nomeEmp(c.empresa)+'</td><td>'+c.forn+'</td><td>'+c.desc+'</td><td><span class="badge '+tc+'">'+c.tipo+'</span></td><td>'+fmtDate(c.venc)+'</td><td style="text-align:right;font-weight:600">'+fmt(c.valor)+'</td><td><span class="badge '+sc+'">'+c.status+'</span></td><td style="white-space:nowrap">'+btnBaixa+btnEdit+'</td></tr>';
+    return'<tr><td>'+nomeEmp(c.empresa)+'</td><td>'+c.forn+'</td><td>'+c.desc+'</td><td><span class="badge '+tc+'">'+c.tipo+'</span></td><td>'+fmtDate(c.venc)+'</td><td style="text-align:right;font-weight:600">'+fmt(c.valor)+'</td><td><span class="badge '+sc+'">'+c.status+'</span></td><td>'+btnBaixa+btnEdit+'</td></tr>';
   }).join('');
 }
 function clearFiltros(){['f-emp','f-status'].forEach(function(id){document.getElementById(id).value=''});['f-forn','f-data'].forEach(function(id){document.getElementById(id).value=''});renderCP()}
@@ -664,17 +664,15 @@ function addCP(){
 function editarCP(id){
   var c=contasPagar.find(function(x){return String(x.id)===String(id)});
   if(!c)return;
-  // Preencher modal com dados atuais
   document.getElementById('cp-empresa').value=c.empresa;
-  updatePlanos('cp-plano',c.empresa);
+  updatePlanos('cp-plano',parseInt(c.empresa)||0);
   document.getElementById('cp-forn').value=c.forn;
   document.getElementById('cp-valor').value=c.valor;
   document.getElementById('cp-desc').value=c.desc;
   document.getElementById('cp-tipo').value=c.tipo;
   document.getElementById('cp-venc').value=c.venc;
-  document.getElementById('cp-plano').value=c.plano;
+  setTimeout(function(){document.getElementById('cp-plano').value=c.plano;},100);
   document.getElementById('cp-recorr').checked=false;
-  // Mudar botão para Salvar edição
   var btn=document.querySelector('#modal-novacp .btn.primary');
   if(btn){btn.textContent='Salvar alterações';btn.onclick=function(){salvarEdicaoCP(id);};}
   var titulo=document.querySelector('#modal-novacp h2');
@@ -685,14 +683,13 @@ function salvarEdicaoCP(id){
   var c=contasPagar.find(function(x){return String(x.id)===String(id)});
   if(!c)return;
   c.empresa=parseInt(document.getElementById('cp-empresa').value)||0;
-  c.forn=document.getElementById('cp-forn').value.trim();
+  c.forn=document.getElementById('cp-forn').value.trim()||c.forn;
   c.valor=parseFloat(document.getElementById('cp-valor').value)||c.valor;
-  c.desc=document.getElementById('cp-desc').value.trim();
+  c.desc=document.getElementById('cp-desc').value.trim()||c.desc;
   c.tipo=document.getElementById('cp-tipo').value;
   c.venc=document.getElementById('cp-venc').value||c.venc;
   c.plano=document.getElementById('cp-plano').value;
   updateInCloud('ContasPagar',c.id,[c.id,c.empresa,c.forn,c.desc,c.tipo,c.venc,c.valor,c.status,c.plano]);
-  // Restaurar modal para modo adicionar
   var btn=document.querySelector('#modal-novacp .btn.primary');
   if(btn){btn.textContent='Adicionar';btn.onclick=addCP;}
   var titulo=document.querySelector('#modal-novacp h2');
@@ -740,13 +737,13 @@ function processFile(file){
   var reader=new FileReader();
   reader.onload=function(e){
     try{
-      fill.style.width='75%';label.textContent='Processando lançamentos...';
+      fill.style.width='75%';label.textContent='Processando lan\u00e7amentos...';
       var data=new Uint8Array(e.target.result);
       var workbook=XLSX.read(data,{type:'array',cellDates:false});
       var sheet=workbook.Sheets[workbook.SheetNames[0]];
       var rows=XLSX.utils.sheet_to_json(sheet,{header:1,raw:false});
       fill.style.width='100%';label.textContent='Importando...';
-      setTimeout(function(){processarLinhas(rows,file,conta,result,prog);},200);
+      setTimeout(function(){processarLinhas(rows,file,conta,result,prog);},300);
     }catch(err){
       prog.style.display='none';
       result.innerHTML='<div class="notice warn"><i class="ti ti-alert-triangle" style="font-size:16px;flex-shrink:0"></i><div><strong>Erro ao ler arquivo</strong><br>'+err.message+'</div></div>';
@@ -766,8 +763,8 @@ function parseDataSicoob(val){
 function parseValorSicoob(val){
   if(val===null||val===undefined||val==='')return null;
   var s=String(val).trim();
-  var credito=s.match(/C\s*$/)!==null;
-  var debito=s.match(/D\s*$/)!==null;
+  var credito=/C\s*$/.test(s);
+  var debito=/D\s*$/.test(s);
   s=s.replace(/[CD\s\*]$/g,'').trim().replace(/\s/g,'').replace(/\./g,'').replace(',','.');
   var n=parseFloat(s);
   if(isNaN(n))return null;
@@ -785,19 +782,17 @@ function processarLinhas(rows,file,conta,result,prog){
     for(var j=0;j<row.length;j++){
       var c=String(row[j]||'').toUpperCase().trim();
       if(c==='DATA'){colData=j;headerRow=i;}
-      if(c.match(/HIST|DESCRI/))colDesc=j;
+      if(/HIST|DESCRI/.test(c))colDesc=j;
       if(c==='VALOR')colVal=j;
     }
     if(headerRow>=0)break;
   }
   var ignorar=['SALDO DO DIA','SALDO ANTERIOR','SALDO BLOQUEADO','SALDO FINAL'];
-  var dataAtual=null;
-  var lancsSicoob=[];
-  var lancAtual=null;
+  var dataAtual=null,lancsSicoob=[],lancAtual=null;
   for(var i=(headerRow>=0?headerRow+1:1);i<rows.length;i++){
     var row=rows[i];if(!row||!row.length)continue;
-    var dataLinha=parseDataSicoob(String(row[colData]||'').trim());
-    if(dataLinha)dataAtual=dataLinha;
+    var dl=parseDataSicoob(String(row[colData]||'').trim());
+    if(dl)dataAtual=dl;
     var desc=String(row[colDesc]||'').trim();
     var valorRaw=row[colVal];
     var temValor=valorRaw!==null&&valorRaw!==undefined&&String(valorRaw).trim()!=='';
@@ -811,14 +806,15 @@ function processarLinhas(rows,file,conta,result,prog){
         lancAtual={data:dataAtual,descPrincipal:desc,complementos:[],valor:valor};
         lancsSicoob.push(lancAtual);
       }
-    } else if(lancAtual&&desc.length>3&&!desc.match(/^[\d\.\-\/\s]+$/)){
+    } else if(lancAtual&&desc.length>3&&!/^[\d\.\-\/\s]+$/.test(desc)){
       lancAtual.complementos.push(desc);
     }
   }
   var novos=0,dups=0,dataInicio=null,dataFim=null;
   lancsSicoob.forEach(function(lanc){
     var descCompleta=lanc.descPrincipal;
-    if(lanc.complementos.length>0)descCompleta=lanc.descPrincipal+' | '+lanc.complementos[0];
+    var compl=lanc.complementos.filter(function(c){return!/^[\d\.\-\/\s]+$/.test(c)&&c.length>3});
+    if(compl.length>0)descCompleta=lanc.descPrincipal+' | '+compl[0];
     if(!dataInicio||lanc.data<dataInicio)dataInicio=lanc.data;
     if(!dataFim||lanc.data>dataFim)dataFim=lanc.data;
     var k=descCompleta+'|'+lanc.data;
@@ -832,7 +828,7 @@ function processarLinhas(rows,file,conta,result,prog){
   });
   prog.style.display='none';
   if(novos===0&&dups===0){
-    result.innerHTML='<div class="notice warn"><i class="ti ti-alert-triangle" style="font-size:16px;flex-shrink:0"></i><div><strong>Nenhum lan\u00e7amento encontrado</strong><br>Verifique se o arquivo \u00e9 um extrato Sicoob v\u00e1lido em formato XLS/XLSX.</div></div>';
+    result.innerHTML='<div class="notice warn"><i class="ti ti-alert-triangle" style="font-size:16px;flex-shrink:0"></i><div><strong>Nenhum lan\u00e7amento encontrado</strong><br>Verifique se \u00e9 um extrato Sicoob v\u00e1lido.</div></div>';
   }else{
     var periodo=dataInicio&&dataFim?(' \u00b7 Per\u00edodo: '+fmtDate(dataInicio)+' a '+fmtDate(dataFim)):'';
     result.innerHTML='<div class="notice success"><i class="ti ti-check" style="font-size:16px;flex-shrink:0"></i><div><strong>Importa\u00e7\u00e3o conclu\u00edda!</strong><br>Conta: '+(conta?conta.nome:'identificada automaticamente')+periodo+'<br>'+novos+' novos lan\u00e7amentos \u00b7 '+dups+' duplicatas ignoradas<br><button class="btn ok sm" style="margin-top:8px" onclick="switchSub(\'ext-class\')">Classificar agora \u2192</button></div></div>';
@@ -931,11 +927,10 @@ function addPlano(){var n=document.getElementById('novo-plano').value.trim();var
 function removePlano(i){planoContas.splice(i,1);renderCfgPlano();populateAll()}
 
 function verificarRecorrenciasVencendo(){
-  var hoje=new Date();
-  // Agrupar contas por fornecedor+desc+empresa para encontrar séries recorrentes
+  var hoje=new Date();hoje.setHours(0,0,0,0);
   var grupos={};
   contasPagar.forEach(function(c){
-    if(c.tipo!=='Fixa')return;
+    if(c.tipo!=='Fixa'||c.status==='Pago')return;
     var key=c.empresa+'|'+c.forn+'|'+c.desc;
     if(!grupos[key])grupos[key]=[];
     grupos[key].push(c);
@@ -943,30 +938,32 @@ function verificarRecorrenciasVencendo(){
   Object.keys(grupos).forEach(function(key){
     var serie=grupos[key].sort(function(a,b){return a.venc>b.venc?1:-1});
     var ultima=serie[serie.length-1];
-    if(!ultima||ultima.status==='Pago')return;
-    var dataUltima=new Date(ultima.venc);
+    if(!ultima)return;
+    var dataUltima=new Date(ultima.venc);dataUltima.setHours(0,0,0,0);
     var diff=Math.ceil((dataUltima-hoje)/(1000*60*60*24));
-    // Se a última da série vence em até 15 dias, perguntar se quer estender
     if(diff<=15&&diff>=0&&serie.length>=2){
-      var jaNotificado=localStorage?localStorage.getItem('notif_'+ultima.id):null;
-      if(!jaNotificado){
-        if(confirm('A despesa recorrente "'+ultima.desc+'" ('+ultima.forn+') está chegando ao final. Deseja criar mais 5 meses?')){
-          for(var m=1;m<=5;m++){
-            var nc=Object.assign({},ultima,{id:Date.now()+m,status:'Pendente'});
-            var d=new Date(ultima.venc);d.setMonth(d.getMonth()+m);
-            nc.venc=d.toISOString().slice(0,10);
-            contasPagar.push(nc);
-            saveToCloud('ContasPagar',[nc.id,nc.empresa,nc.forn,nc.desc,nc.tipo,nc.venc,nc.valor,nc.status,nc.plano]);
-          }
-          showAlert('alert-cp','Recorrência estendida por mais 5 meses!');
-          renderCP();
+      try{
+        var jaNotif=sessionStorage.getItem('notif_'+ultima.id);
+        if(!jaNotif){
+          sessionStorage.setItem('notif_'+ultima.id,'1');
+          setTimeout(function(){
+            if(confirm('A despesa recorrente "'+ultima.desc+'" ('+ultima.forn+') chega ao final em '+diff+' dia(s). Deseja criar mais 5 meses?')){
+              for(var m=1;m<=5;m++){
+                var nc=Object.assign({},ultima,{id:nextCpId++,status:'Pendente'});
+                var d=new Date(ultima.venc);d.setMonth(d.getMonth()+m);
+                nc.venc=d.toISOString().slice(0,10);
+                contasPagar.push(nc);
+                saveToCloud('ContasPagar',[nc.id,nc.empresa,nc.forn,nc.desc,nc.tipo,nc.venc,nc.valor,nc.status,nc.plano]);
+              }
+              showAlert('alert-cp','Recorrência estendida por mais 5 meses!');
+              renderCP();
+            }
+          },2000);
         }
-        try{if(localStorage)localStorage.setItem('notif_'+ultima.id,'1');}catch(e){}
-      }
+      }catch(e){}
     }
   });
 }
-
 var now=new Date();document.getElementById('data-atual').textContent=now.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
 document.getElementById('l-data').valueAsDate=now;
 if(cloudAtivo){loadFromCloud();setInterval(function(){var modalAberto=document.querySelector('.modal-bg.open');if(!modalAberto){loadFromCloud();}},10000);}else{setSyncStatus('error','Configure a URL â veja o guia');populateAll()}
