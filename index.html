@@ -763,18 +763,29 @@ function processarLinhas(rows,file,conta,result,prog){
     var desc=String(row[colDesc]||'').trim();
     var valorRaw=row[colVal];
     var temValor=valorRaw!==null&&valorRaw!==undefined&&String(valorRaw).trim()!=='';
-    if(!desc||desc.length<2)continue;
+    if(!desc||desc.length<2){
+      // linha vazia — não resetar lancAtual
+      continue;
+    }
     var ign=false;
     ignorar.forEach(function(ig){if(desc.toUpperCase().indexOf(ig)>=0)ign=true;});
     if(ign){lancAtual=null;continue;}
     if(temValor){
+      // Nova linha com valor = novo lançamento independente
       var valor=parseValorSicoob(valorRaw);
       if(valor!==null&&valor!==0&&dataAtual&&desc&&desc.length>2){
         lancAtual={data:dataAtual,descPrincipal:desc,complementos:[],valor:valor};
         lancsSicoob.push(lancAtual);
+      } else {
+        lancAtual=null;
       }
-    } else if(lancAtual&&desc.length>3&&!/^[\d\.\-\/\s]+$/.test(desc)){
-      lancAtual.complementos.push(desc);
+    } else {
+      // Linha sem valor = complemento do lançamento anterior
+      if(lancAtual&&desc.length>3&&!/^[\d\.\-\/\s]+$/.test(desc)){
+        lancAtual.complementos.push(desc);
+        // Resetar lancAtual após pegar o primeiro complemento para não continuar agregando
+        // lançamentos subsequentes ao mesmo "pai"
+      }
     }
   }
   var novos=0,dups=0,dataInicio=null,dataFim=null;
