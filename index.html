@@ -395,7 +395,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 
 <div class="modal-bg" id="modal-class-single"><div class="modal"><div class="modal-hd"><h2>Classificar lançamento</h2><button class="modal-close" onclick="closeModal('modal-class-single')">&#x2715;</button></div>
 <div id="mcs-body"></div>
-<div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><button class="btn primary" onclick="salvarClass('dre')"><i class="ti ti-check"></i> Confirmar â DRE</button><button class="btn warn-btn" onclick="salvarClass('ignorado')"><i class="ti ti-eye-off"></i> Não enviar Ã  DRE</button><button class="btn" onclick="closeModal('modal-class-single')">Cancelar</button></div>
+<div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><button class="btn primary" onclick="salvarClass('dre')"><i class="ti ti-check"></i> Confirmar â DRE</button><button class="btn warn-btn" onclick="salvarClass('ignorado')"><i class="ti ti-eye-off"></i> Não enviar à DRE</button><button class="btn" onclick="closeModal('modal-class-single')">Cancelar</button></div>
 </div></div>
 
 <script>
@@ -742,7 +742,7 @@ function parseValorSicoob(val){
 function processarLinhas(rows,file,conta,result,prog){
   var cId=conta?conta.id:(contasBancarias[0]?contasBancarias[0].id:'cb1');
   var emp=conta?conta.empresa:0;
-  var ex=extLancamentos.filter(function(l){return l.contaId===cId}).map(function(l){return l.descOrig+'|'+l.data});
+  var ex=extLancamentos.filter(function(l){return l.contaId===cId}).map(function(l){return l.descOrig+'|'+l.data+'|'+l.valor;});
   var headerRow=-1,colData=0,colDesc=2,colVal=3;
   for(var i=0;i<Math.min(rows.length,10);i++){
     var row=rows[i];if(!row)continue;
@@ -784,13 +784,14 @@ function processarLinhas(rows,file,conta,result,prog){
     if(compl.length>0)descCompleta=lanc.descPrincipal+' | '+compl[0];
     if(!dataInicio||lanc.data<dataInicio)dataInicio=lanc.data;
     if(!dataFim||lanc.data>dataFim)dataFim=lanc.data;
-    var k=descCompleta+'|'+lanc.data;
-    var k2=lanc.descPrincipal+'|'+lanc.data;
+    // Usar desc+data+valor como chave para não perder lançamentos iguais no mesmo dia
+    var k=descCompleta+'|'+lanc.data+'|'+lanc.valor;
+    var k2=lanc.descPrincipal+'|'+lanc.data+'|'+lanc.valor;
     if(ex.includes(k)||ex.includes(k2)){dups++;return;}
     var l={id:'e'+(nextExtId++),contaId:cId,empresa:emp,data:lanc.data,descOrig:descCompleta,descClass:'',valor:lanc.valor,plano:'',status:'pendente',arquivo:file.name};
     extLancamentos.push(l);
     saveToCloud('Extratos',[l.id,l.contaId,l.empresa,l.data,l.descOrig,l.descClass,l.valor,l.plano,l.status,l.arquivo]);
-    ex.push(k);
+    ex.push(k);ex.push(k2);
     novos++;
   });
   prog.style.display='none';
@@ -815,8 +816,8 @@ function renderClass(){
   el.innerHTML=filtered.map(function(l){
     var cb=contasBancarias.find(function(c){return c.id===l.contaId});var vc=l.valor>=0?'#065F46':'#B91C1C';var vs=(l.valor>=0?'+':'')+fmt(l.valor);
     var sb='<span class="badge '+(l.status==='dre'?'dre':l.status==='ignorado'?'ignorado':'imp-pend')+'">'+(l.status==='dre'?'Na DRE':l.status==='ignorado'?'Ignorado':'Pendente')+'</span>';
-    var btns=l.status==='pendente'?'<div style="display:flex;gap:6px;margin-top:6px"><button class="btn ok sm" onclick="abrirClass(\''+l.id+'\')">Classificar</button><button class="btn sm" onclick="quickIgn(\''+l.id+'\')">Não enviar Ã  DRE</button></div>':'<button class="btn sm" style="margin-top:6px" onclick="abrirClass(\''+l.id+'\')">Editar</button>';
-    return'<div class="classify-row"><div style="font-size:11px;color:#9ca3af;margin-bottom:2px"><i class="ti ti-building-bank" style="font-size:11px"></i> '+(cb?cb.nome:'—')+' · '+fmtDate(l.data)+'</div><div style="font-size:12px;font-weight:600">'+(l.descClass||l.descOrig)+' <span style="font-weight:700;color:'+vc+'">'+vs+'</span> '+sb+'</div>'+(l.plano?'<div style="font-size:11px;color:#185FA5;margin-top:2px"><i class="ti ti-tag" style="font-size:10px"></i> '+l.plano+'</div>':'')+btns+'</div>';
+    var btns=l.status==='pendente'?'<div style="display:flex;gap:6px;margin-top:6px"><button class="btn ok sm" onclick="abrirClass(\''+l.id+'\')">Classificar</button><button class="btn sm" onclick="quickIgn(\''+l.id+'\')">Não enviar à DRE</button></div>':'<button class="btn sm" style="margin-top:6px" onclick="abrirClass(\''+l.id+'\')">Editar</button>';
+    return'<div class="classify-row"><div style="font-size:11px;color:#9ca3af;margin-bottom:2px"><i class="ti ti-building-bank" style="font-size:11px"></i> '+(cb?cb.banco+' - '+cb.nome:'Conta')+' · '+fmtDate(l.data)+'</div><div style="font-size:12px;font-weight:600">'+(l.descClass||l.descOrig)+' <span style="font-weight:700;color:'+vc+'">'+vs+'</span> '+sb+'</div>'+(l.plano?'<div style="font-size:11px;color:#185FA5;margin-top:2px"><i class="ti ti-tag" style="font-size:10px"></i> '+l.plano+'</div>':'')+btns+'</div>';
   }).join('');
 }
 function abrirClass(id){
@@ -832,15 +833,15 @@ function salvarClass(status){
   l.descClass=document.getElementById('mc-desc').value.trim()||l.descOrig;l.empresa=parseInt(document.getElementById('mc-emp').value)||l.empresa;l.plano=document.getElementById('mc-plano').value;l.status=status;
   updateInCloud('Extratos',l.id,[l.id,l.contaId,l.empresa,l.data,l.descOrig,l.descClass,l.valor,l.plano,l.status,l.arquivo]);
   closeModal('modal-class-single');renderClass();updateExtStats();renderDash();
-  var ac=document.getElementById('alert-class');ac.textContent=status==='dre'?'Enviado Ã  DRE de '+nomeEmp(l.empresa)+'!':'Marcado como não DRE.';ac.className='page-alert '+(status==='dre'?'success':'info');ac.style.display='block';setTimeout(function(){ac.style.display='none'},4000);
+  var ac=document.getElementById('alert-class');ac.textContent=status==='dre'?'Enviado à DRE de '+nomeEmp(l.empresa)+'!':'Marcado como não DRE.';ac.className='page-alert '+(status==='dre'?'success':'info');ac.style.display='block';setTimeout(function(){ac.style.display='none'},4000);
 }
 function quickIgn(id){var l=extLancamentos.find(function(x){return x.id===id});l.status='ignorado';updateInCloud('Extratos',l.id,[l.id,l.contaId,l.empresa,l.data,l.descOrig,l.descClass,l.valor,l.plano,l.status,l.arquivo]);renderClass();updateExtStats();renderDash()}
 function confirmarTodos(){
   var p=extLancamentos.filter(function(l){return l.status==='pendente'});
   if(!p.length){showAlert('alert-class','Nenhum pendente.','info');return}
-  if(!confirm('Confirmar '+p.length+' lançamentos e enviar Ã  DRE?'))return;
+  if(!confirm('Confirmar '+p.length+' lançamentos e enviar à DRE?'))return;
   p.forEach(function(l){if(!l.descClass)l.descClass=l.descOrig;l.status='dre';updateInCloud('Extratos',l.id,[l.id,l.contaId,l.empresa,l.data,l.descOrig,l.descClass,l.valor,l.plano,l.status,l.arquivo])});
-  renderClass();updateExtStats();renderDash();showAlert('alert-class',p.length+' lançamentos enviados Ã  DRE!');
+  renderClass();updateExtStats();renderDash();showAlert('alert-class',p.length+' lançamentos enviados à DRE!');
 }
 function simularImport(){
   if(!contasBancarias.length){alert('Cadastre uma conta bancária primeiro.');return}
