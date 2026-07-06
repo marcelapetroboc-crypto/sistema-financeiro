@@ -3,9 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Gestão Financeira — Grupo Empresarial</title>
+<title>GestÃ£o Financeira â Grupo Empresarial</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css">
-<script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;font-size:14px;color:#1a1a1a;background:#f4f5f7;min-height:100vh}
@@ -148,7 +147,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 
 <div class="topbar">
   <div class="logo-icon"><i class="ti ti-chart-bar"></i></div>
-  <span class="topbar-title" id="titulo-grupo">Gestão Financeira — Grupo Empresarial</span>
+  <span class="topbar-title" id="titulo-grupo">GestÃ£o Financeira â Grupo Empresarial</span>
   <div class="topbar-date" id="data-atual"></div>
   <div class="sync-status" id="sync-status"><i class="ti ti-cloud"></i> <span id="sync-label">Conectando...</span></div>
 </div>
@@ -156,32 +155,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 <div class="navbar">
   <button class="nav-item active" onclick="showPage('dashboard')"><i class="ti ti-home"></i> Painel</button>
   <button class="nav-item" onclick="showPage('dre')"><i class="ti ti-report-analytics"></i> DRE</button>
-  <button class="nav-item" onclick="showPage('lancamento')"><i class="ti ti-plus"></i> Lançamento</button>
+  <button class="nav-item" onclick="showPage('lancamento')"><i class="ti ti-plus"></i> LanÃ§amento</button>
   <button class="nav-item" onclick="showPage('contas')"><i class="ti ti-file-invoice"></i> Contas a Pagar</button>
   <button class="nav-item" onclick="showPage('extratos')"><i class="ti ti-building-bank"></i> Extratos <span class="nav-badge" id="badge-ext">0</span></button>
-  <button class="nav-item" onclick="showPage('relatorios')"><i class="ti ti-download"></i> Relatórios</button>
-  <button class="nav-item" onclick="showPage('ia')"><i class="ti ti-robot"></i> Análise IA</button>
+  <button class="nav-item" onclick="showPage('relatorios')"><i class="ti ti-download"></i> RelatÃ³rios</button>
+  <button class="nav-item" onclick="showPage('ia')"><i class="ti ti-robot"></i> AnÃ¡lise IA</button>
   <button class="nav-item" onclick="showPage('config')"><i class="ti ti-settings"></i> Config.</button>
 </div>
 
 <!-- PAINEL -->
 <div class="page active" id="page-dashboard">
   <div class="kpi-row">
-    <div class="kpi-card blue"><div class="kpi-label"><i class="ti ti-trending-up"></i> Receita total (grupo)</div><div class="kpi-inner"><div class="kpi-bar"></div><div class="kpi-val" id="kpi-rec">—</div></div></div>
-    <div class="kpi-card red"><div class="kpi-label"><i class="ti ti-trending-down"></i> Despesas totais</div><div class="kpi-inner"><div class="kpi-bar"></div><div class="kpi-val" id="kpi-desp">—</div></div></div>
-    <div class="kpi-card green"><div class="kpi-label"><i class="ti ti-coin"></i> Resultado líquido</div><div class="kpi-inner"><div class="kpi-bar"></div><div class="kpi-val" id="kpi-res">—</div></div></div>
-    <div class="kpi-card amber"><div class="kpi-label"><i class="ti ti-clock"></i> Contas pendentes</div><div class="kpi-inner"><div class="kpi-bar"></div><div class="kpi-val" id="kpi-cp">—</div></div></div>
+    <div class="kpi-card blue"><div class="kpi-label"><i class="ti ti-trending-up"></i> Receita total (grupo)</div><div class="kpi-inner"><div class="kpi-bar"></div><div class="kpi-val" id="kpi-rec">â</div></div></div>
+    <div class="kpi-card red"><div class="kpi-label"><i class="ti ti-trending-down"></i> Despesas totais</div><div class="kpi-inner"><div class="kpi-bar"></div><div class="kpi-val" id="kpi-desp">â</div></div></div>
+    <div class="kpi-card green"><div class="kpi-label"><i class="ti ti-coin"></i> Resultado lÃ­quido</div><div class="kpi-inner"><div class="kpi-bar"></div><div class="kpi-val" id="kpi-res">â</div></div></div>
+    <div class="kpi-card amber"><div class="kpi-label"><i class="ti ti-clock"></i> Contas pendentes</div><div class="kpi-inner"><div class="kpi-bar"></div><div class="kpi-val" id="kpi-cp">â</div></div></div>
   </div>
   <div class="two-col">
-    <div class="panel"><div class="panel-title">Resultado por empresa <span style="font-weight:400">— mÃªs atual</span></div><div id="dash-empresas"></div></div>
-    <div class="panel"><div class="panel-title">Alertas e atenção</div><div id="dash-alertas"></div></div>
+    <div class="panel"><div class="panel-title">Resultado por empresa <span style="font-weight:400">â mÃªs atual</span></div><div id="dash-empresas"></div></div>
+    <div class="panel"><div class="panel-title">Alertas e atenÃ§Ã£o</div><div id="dash-alertas"></div></div>
   </div>
 </div>
 
 <!-- DRE -->
 <div class="page" id="page-dre">
   <div class="section-header">
-    <div class="section-title">DRE — Demonstração do Resultado</div>
+    <div class="section-title">DRE â DemonstraÃ§Ã£o do Resultado</div>
     <select id="dre-mes" onchange="renderDRE()" style="padding:7px 10px;border-radius:8px;border:1px solid #d1d5db;font-size:12px;font-family:inherit;background:#fff">
       <option value="6">Junho 2026</option><option value="5">Maio 2026</option><option value="4">Abril 2026</option><option value="0">Acumulado ano</option>
     </select>
@@ -191,29 +190,29 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
   <div class="form-card" style="padding:0;overflow:hidden">
     <div style="overflow-x:auto"><table class="dre-table" id="dre-body"></table></div>
   </div>
-  <p style="font-size:11px;color:#9ca3af;margin-top:8px"><i class="ti ti-info-circle"></i> Clique em qualquer conta para ver os lançamentos detalhados.</p>
+  <p style="font-size:11px;color:#9ca3af;margin-top:8px"><i class="ti ti-info-circle"></i> Clique em qualquer conta para ver os lanÃ§amentos detalhados.</p>
 </div>
 
 <!-- LANÃAMENTO -->
 <div class="page" id="page-lancamento">
   <div id="alert-lanc" class="page-alert"></div>
   <div class="form-card">
-    <div class="form-card-title"><i class="ti ti-plus" style="color:#185FA5"></i> Registrar novo lançamento</div>
+    <div class="form-card-title"><i class="ti ti-plus" style="color:#185FA5"></i> Registrar novo lanÃ§amento</div>
     <div class="form-grid">
       <div class="form-group"><label>Empresa</label><select id="l-empresa" onchange="updatePlanos('l-plano',parseInt(this.value))"></select></div>
       <div class="form-group"><label>Data</label><input type="date" id="l-data"></div>
-      <div class="form-group full"><label>Descrição</label><input type="text" id="l-desc" placeholder="Ex: Padaria, reposição combustível, aluguel..."></div>
+      <div class="form-group full"><label>DescriÃ§Ã£o</label><input type="text" id="l-desc" placeholder="Ex: Padaria, reposiÃ§Ã£o combustÃ­vel, aluguel..."></div>
       <div class="form-group"><label>Valor (R$)</label><input type="number" id="l-valor" placeholder="0,00" step="0.01" min="0"></div>
       <div class="form-group"><label>Tipo</label><select id="l-tipo"><option value="despesa">Despesa</option><option value="receita">Receita</option></select></div>
       <div class="form-group"><label>Plano de contas</label><select id="l-plano"></select></div>
-      <div class="form-group"><label>Categoria</label><select id="l-cat"><option>Despesa fixa</option><option>Despesa variável</option><option>Receita operacional</option><option>Investimento</option></select></div>
-      <div class="form-group"><label>Forma de pagamento</label><select id="l-forma"><option>PIX</option><option>TED / TransferÃªncia</option><option>Boleto</option><option>Cartão de crédito</option><option>Débito em conta</option><option>Dinheiro</option></select></div>
+      <div class="form-group"><label>Categoria</label><select id="l-cat"><option>Despesa fixa</option><option>Despesa variÃ¡vel</option><option>Receita operacional</option><option>Investimento</option></select></div>
+      <div class="form-group"><label>Forma de pagamento</label><select id="l-forma"><option>PIX</option><option>TED / TransferÃªncia</option><option>Boleto</option><option>CartÃ£o de crÃ©dito</option><option>DÃ©bito em conta</option><option>Dinheiro</option></select></div>
       <div class="form-group"><label>Fornecedor / Pagador</label><input type="text" id="l-forn" placeholder="(opcional)"></div>
-      <div class="form-group"><label>NF / Documento</label><input type="text" id="l-nf" placeholder="Número da nota ou referÃªncia"></div>
-      <div class="form-group full"><label class="checkbox-label"><input type="checkbox" id="l-recorr"> Recorrente — replicar automaticamente nos próximos meses</label></div>
+      <div class="form-group"><label>NF / Documento</label><input type="text" id="l-nf" placeholder="NÃºmero da nota ou referÃªncia"></div>
+      <div class="form-group full"><label class="checkbox-label"><input type="checkbox" id="l-recorr"> Recorrente â replicar automaticamente nos prÃ³ximos meses</label></div>
     </div>
     <div style="display:flex;gap:8px;margin-top:16px;padding-top:14px;border-top:1px solid #f3f4f6">
-      <button class="btn primary" onclick="lancar()"><i class="ti ti-check"></i> Lançar</button>
+      <button class="btn primary" onclick="lancar()"><i class="ti ti-check"></i> LanÃ§ar</button>
       <button class="btn" onclick="limparLanc()"><i class="ti ti-eraser"></i> Limpar</button>
     </div>
   </div>
@@ -234,23 +233,23 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
     <div style="align-self:flex-end"><button class="btn sm" onclick="clearFiltros()">Limpar</button></div>
   </div>
   <div class="form-card" style="padding:0;overflow:hidden">
-    <div style="overflow-x:auto"><table class="data-table"><thead><tr><th>Empresa</th><th>Fornecedor</th><th>Descrição</th><th>Tipo</th><th>Vencimento</th><th style="text-align:right">Valor</th><th>Status</th><th>Ação</th></tr></thead><tbody id="cp-tbody"></tbody></table></div>
+    <div style="overflow-x:auto"><table class="data-table"><thead><tr><th>Empresa</th><th>Fornecedor</th><th>DescriÃ§Ã£o</th><th>Tipo</th><th>Vencimento</th><th style="text-align:right">Valor</th><th>Status</th><th>AÃ§Ã£o</th></tr></thead><tbody id="cp-tbody"></tbody></table></div>
   </div>
 </div>
 
 <!-- EXTRATOS -->
 <div class="page" id="page-extratos">
-  <div class="section-header"><div class="section-title">Extratos Bancários</div></div>
+  <div class="section-header"><div class="section-title">Extratos BancÃ¡rios</div></div>
   <div class="sub-nav">
     <button class="sub-nav-item active" onclick="switchSub('ext-contas')"><i class="ti ti-credit-card"></i> Contas cadastradas</button>
     <button class="sub-nav-item" onclick="switchSub('ext-import')"><i class="ti ti-upload"></i> Importar extrato</button>
     <button class="sub-nav-item" onclick="switchSub('ext-class')"><i class="ti ti-list-check"></i> Classificar <span id="badge-pend-class" style="background:#185FA5;color:#fff;font-size:10px;padding:1px 6px;border-radius:10px;margin-left:3px">0</span></button>
-    <button class="sub-nav-item" onclick="switchSub('ext-hist')"><i class="ti ti-history"></i> Histórico</button>
+    <button class="sub-nav-item" onclick="switchSub('ext-hist')"><i class="ti ti-history"></i> HistÃ³rico</button>
   </div>
   <div id="ext-contas">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <span style="font-size:12px;color:#6b7280">O identificador permite reconhecimento automático na importação.</span>
-      <button class="btn primary sm" onclick="openModal('modal-nova-conta')"><i class="ti ti-plus"></i> Nova conta bancária</button>
+      <span style="font-size:12px;color:#6b7280">O identificador permite reconhecimento automÃ¡tico na importaÃ§Ã£o.</span>
+      <button class="btn primary sm" onclick="openModal('modal-nova-conta')"><i class="ti ti-plus"></i> Nova conta bancÃ¡ria</button>
     </div>
     <div id="lista-contas-bancarias"></div>
   </div>
@@ -258,12 +257,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
     <div id="alert-import" class="page-alert"></div>
     <div class="form-card">
       <div class="form-card-title"><i class="ti ti-upload" style="color:#185FA5"></i> Importar arquivo de extrato</div>
-      <div class="notice info" style="margin-bottom:14px"><i class="ti ti-info-circle" style="font-size:16px;flex-shrink:0"></i> O sistema identifica automaticamente a conta pelo identificador cadastrado. Importações futuras adicionam apenas lançamentos novos.</div>
-      <div class="form-group" style="margin-bottom:14px"><label>Conta bancária (ou identificação automática)</label><select id="imp-conta-sel"><option value="">— Identificar automaticamente —</option></select></div>
+      <div class="notice info" style="margin-bottom:14px"><i class="ti ti-info-circle" style="font-size:16px;flex-shrink:0"></i> O sistema identifica automaticamente a conta pelo identificador cadastrado. ImportaÃ§Ãµes futuras adicionam apenas lanÃ§amentos novos.</div>
+      <div class="form-group" style="margin-bottom:14px"><label>Conta bancÃ¡ria (ou identificaÃ§Ã£o automÃ¡tica)</label><select id="imp-conta-sel"><option value="">â Identificar automaticamente â</option></select></div>
       <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()" ondragover="event.preventDefault();this.classList.add('over')" ondragleave="this.classList.remove('over')" ondrop="handleDrop(event)">
         <i class="ti ti-file-upload" style="font-size:34px;color:#9ca3af;margin-bottom:8px;display:block"></i>
         <div style="font-size:13px;font-weight:600;margin-bottom:4px;color:#374151">Arraste o arquivo ou clique para selecionar</div>
-        <div style="font-size:11px;color:#9ca3af">.xlsx &nbsp;·&nbsp; .xls &nbsp;·&nbsp; .csv &nbsp;·&nbsp; .pdf — até 10MB</div>
+        <div style="font-size:11px;color:#9ca3af">.xlsx &nbsp;Â·&nbsp; .xls &nbsp;Â·&nbsp; .csv &nbsp;Â·&nbsp; .pdf â atÃ© 10MB</div>
       </div>
       <input type="file" id="file-input" style="display:none" accept=".xlsx,.xls,.csv,.pdf" onchange="handleFile(this)">
       <div id="import-progress" style="display:none;margin-top:12px">
@@ -286,7 +285,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
       <div class="filter-group"><label>Status</label><select id="fil-status-class" onchange="renderClass()"><option value="">Todos</option><option value="pendente">Pendentes</option><option value="dre">Na DRE</option><option value="ignorado">Ignorados</option></select></div>
       <div style="align-self:flex-end;display:flex;gap:6px">
         <button class="btn ok sm" onclick="confirmarTodos()"><i class="ti ti-checks"></i> Confirmar todos â DRE</button>
-        <button class="btn sm" onclick="simularImport()"><i class="ti ti-sparkles"></i> Simular importação</button>
+        <button class="btn sm" onclick="simularImport()"><i class="ti ti-sparkles"></i> Simular importaÃ§Ã£o</button>
       </div>
     </div>
     <div class="form-card" style="padding:12px 16px" id="lista-class"></div>
@@ -303,28 +302,28 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 
 <!-- RELATÃRIOS -->
 <div class="page" id="page-relatorios">
-  <div class="section-header"><div class="section-title">Relatórios</div></div>
+  <div class="section-header"><div class="section-title">RelatÃ³rios</div></div>
   <div id="alert-rel" class="page-alert"></div>
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-    <div class="form-card"><div class="form-card-title"><i class="ti ti-report-analytics" style="color:#185FA5"></i> DRE por empresa</div><div class="form-group" style="margin-bottom:8px"><label>Empresa</label><select id="rel-emp"></select></div><div class="form-group" style="margin-bottom:12px"><label>Período</label><select><option>Junho 2026</option><option>JanâJun 2026</option><option>2026 completo</option></select></div><div style="display:flex;gap:6px"><button class="btn sm primary" onclick="exportar('PDF','DRE por empresa')"><i class="ti ti-file-type-pdf"></i> PDF</button><button class="btn sm" onclick="exportar('Excel','DRE por empresa')"><i class="ti ti-file-spreadsheet"></i> Excel</button></div></div>
-    <div class="form-card"><div class="form-card-title"><i class="ti ti-building" style="color:#185FA5"></i> DRE consolidada (grupo)</div><div class="form-group" style="margin-bottom:12px"><label>Período</label><select><option>Junho 2026</option><option>JanâJun 2026</option><option>2026 completo</option></select></div><div style="display:flex;gap:6px"><button class="btn sm primary" onclick="exportar('PDF','DRE consolidada')"><i class="ti ti-file-type-pdf"></i> PDF</button><button class="btn sm" onclick="exportar('Excel','DRE consolidada')"><i class="ti ti-file-spreadsheet"></i> Excel</button></div></div>
+    <div class="form-card"><div class="form-card-title"><i class="ti ti-report-analytics" style="color:#185FA5"></i> DRE por empresa</div><div class="form-group" style="margin-bottom:8px"><label>Empresa</label><select id="rel-emp"></select></div><div class="form-group" style="margin-bottom:12px"><label>PerÃ­odo</label><select><option>Junho 2026</option><option>JanâJun 2026</option><option>2026 completo</option></select></div><div style="display:flex;gap:6px"><button class="btn sm primary" onclick="exportar('PDF','DRE por empresa')"><i class="ti ti-file-type-pdf"></i> PDF</button><button class="btn sm" onclick="exportar('Excel','DRE por empresa')"><i class="ti ti-file-spreadsheet"></i> Excel</button></div></div>
+    <div class="form-card"><div class="form-card-title"><i class="ti ti-building" style="color:#185FA5"></i> DRE consolidada (grupo)</div><div class="form-group" style="margin-bottom:12px"><label>PerÃ­odo</label><select><option>Junho 2026</option><option>JanâJun 2026</option><option>2026 completo</option></select></div><div style="display:flex;gap:6px"><button class="btn sm primary" onclick="exportar('PDF','DRE consolidada')"><i class="ti ti-file-type-pdf"></i> PDF</button><button class="btn sm" onclick="exportar('Excel','DRE consolidada')"><i class="ti ti-file-spreadsheet"></i> Excel</button></div></div>
     <div class="form-card"><div class="form-card-title"><i class="ti ti-file-invoice" style="color:#185FA5"></i> Contas a pagar</div><div class="form-group" style="margin-bottom:12px"><label>Empresa</label><select id="rel-cp-emp"><option value="">Todas</option></select></div><div style="display:flex;gap:6px"><button class="btn sm primary" onclick="exportar('PDF','Contas a pagar')"><i class="ti ti-file-type-pdf"></i> PDF</button><button class="btn sm" onclick="exportar('Excel','Contas a pagar')"><i class="ti ti-file-spreadsheet"></i> Excel</button></div></div>
-    <div class="form-card"><div class="form-card-title"><i class="ti ti-building-bank" style="color:#185FA5"></i> Extrato classificado</div><div class="form-group" style="margin-bottom:12px"><label>Conta bancária</label><select id="rel-ext-conta"><option value="">Todas</option></select></div><div style="display:flex;gap:6px"><button class="btn sm primary" onclick="exportar('PDF','Extrato classificado')"><i class="ti ti-file-type-pdf"></i> PDF</button><button class="btn sm" onclick="exportar('Excel','Extrato classificado')"><i class="ti ti-file-spreadsheet"></i> Excel</button></div></div>
+    <div class="form-card"><div class="form-card-title"><i class="ti ti-building-bank" style="color:#185FA5"></i> Extrato classificado</div><div class="form-group" style="margin-bottom:12px"><label>Conta bancÃ¡ria</label><select id="rel-ext-conta"><option value="">Todas</option></select></div><div style="display:flex;gap:6px"><button class="btn sm primary" onclick="exportar('PDF','Extrato classificado')"><i class="ti ti-file-type-pdf"></i> PDF</button><button class="btn sm" onclick="exportar('Excel','Extrato classificado')"><i class="ti ti-file-spreadsheet"></i> Excel</button></div></div>
   </div>
 </div>
 
 <!-- IA -->
 <div class="page" id="page-ia">
-  <div class="section-header"><div class="section-title">Análise com InteligÃªncia Artificial</div></div>
+  <div class="section-header"><div class="section-title">AnÃ¡lise com InteligÃªncia Artificial</div></div>
   <p style="font-size:12px;color:#6b7280;margin-bottom:14px">Converse com a IA sobre os dados do seu grupo. Ela tem acesso ao contexto financeiro completo.</p>
   <div class="ia-sugs">
     <button class="ia-sug" onclick="perguntarIA('Qual empresa teve melhor resultado este mÃªs?')">Melhor resultado</button>
-    <button class="ia-sug" onclick="perguntarIA('Como está a margem líquida dos postos de combustível?')">Margem dos postos</button>
-    <button class="ia-sug" onclick="perguntarIA('Há contas vencidas que precisam de atenção imediata?')">Contas em atraso</button>
-    <button class="ia-sug" onclick="perguntarIA('Quais são as maiores despesas fixas do grupo?')">Maiores despesas fixas</button>
-    <button class="ia-sug" onclick="perguntarIA('Faça uma análise completa do grupo com sugestões de melhoria')">Análise completa</button>
+    <button class="ia-sug" onclick="perguntarIA('Como estÃ¡ a margem lÃ­quida dos postos de combustÃ­vel?')">Margem dos postos</button>
+    <button class="ia-sug" onclick="perguntarIA('HÃ¡ contas vencidas que precisam de atenÃ§Ã£o imediata?')">Contas em atraso</button>
+    <button class="ia-sug" onclick="perguntarIA('Quais sÃ£o as maiores despesas fixas do grupo?')">Maiores despesas fixas</button>
+    <button class="ia-sug" onclick="perguntarIA('FaÃ§a uma anÃ¡lise completa do grupo com sugestÃµes de melhoria')">AnÃ¡lise completa</button>
   </div>
-  <div class="ia-wrap" id="ia-chat"><div style="text-align:center;color:#9ca3af;font-size:12px;margin:auto"><i class="ti ti-robot" style="font-size:28px;display:block;margin-bottom:8px"></i>Faça uma pergunta ou clique em uma sugestão acima.</div></div>
+  <div class="ia-wrap" id="ia-chat"><div style="text-align:center;color:#9ca3af;font-size:12px;margin:auto"><i class="ti ti-robot" style="font-size:28px;display:block;margin-bottom:8px"></i>FaÃ§a uma pergunta ou clique em uma sugestÃ£o acima.</div></div>
   <div id="ia-loading" style="display:none;font-size:11px;color:#6b7280;padding:6px 0"><i class="ti ti-loader"></i> Analisando os dados do grupo...</div>
   <div style="display:flex;gap:8px;margin-top:8px">
     <input type="text" id="ia-input" placeholder="Pergunte sobre suas empresas..." onkeydown="if(event.key==='Enter')perguntarIA()" style="flex:1;border-radius:8px;border:1px solid #d1d5db;padding:9px 12px;font-size:13px;font-family:inherit">
@@ -335,7 +334,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 <!-- CONFIG -->
 <div class="page" id="page-config">
   <div id="alert-cfg" class="page-alert"></div>
-  <div class="section-header"><div class="section-title">Configurações</div></div>
+  <div class="section-header"><div class="section-title">ConfiguraÃ§Ãµes</div></div>
   <div class="form-card" style="margin-bottom:12px">
     <div class="form-card-title"><i class="ti ti-building" style="color:#185FA5"></i> Nome do grupo / holding</div>
     <div style="display:flex;gap:8px"><input type="text" id="cfg-grupo" style="flex:1" placeholder="Ex: Grupo Oliveira..."><button class="btn primary sm" onclick="salvarGrupo()">Salvar</button></div>
@@ -358,18 +357,18 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 </div>
 
 <!-- MODAIS -->
-<div class="modal-bg" id="modal-detalhes"><div class="modal"><div class="modal-hd"><h2 id="det-titulo">Lançamentos</h2><button class="modal-close" onclick="closeModal('modal-detalhes')">&#x2715;</button></div><div id="det-body"></div></div></div>
+<div class="modal-bg" id="modal-detalhes"><div class="modal"><div class="modal-hd"><h2 id="det-titulo">LanÃ§amentos</h2><button class="modal-close" onclick="closeModal('modal-detalhes')">&#x2715;</button></div><div id="det-body"></div></div></div>
 
 <div class="modal-bg" id="modal-novacp"><div class="modal"><div class="modal-hd"><h2>Nova conta a pagar</h2><button class="modal-close" onclick="closeModal('modal-novacp')">&#x2715;</button></div>
 <div class="form-grid">
   <div class="form-group"><label>Empresa</label><select id="cp-empresa" onchange="updatePlanos('cp-plano',parseInt(this.value))"></select></div>
-  <div class="form-group"><label>Tipo</label><select id="cp-tipo"><option>Fixa</option><option>Variável</option></select></div>
+  <div class="form-group"><label>Tipo</label><select id="cp-tipo"><option>Fixa</option><option>VariÃ¡vel</option></select></div>
   <div class="form-group"><label>Fornecedor</label><input type="text" id="cp-forn"></div>
   <div class="form-group"><label>Valor (R$)</label><input type="number" id="cp-valor" step="0.01" min="0"></div>
-  <div class="form-group full"><label>Descrição</label><input type="text" id="cp-desc"></div>
+  <div class="form-group full"><label>DescriÃ§Ã£o</label><input type="text" id="cp-desc"></div>
   <div class="form-group"><label>Vencimento</label><input type="date" id="cp-venc"></div>
   <div class="form-group"><label>Plano de contas</label><select id="cp-plano"></select></div>
-  <div class="form-group full"><label class="checkbox-label"><input type="checkbox" id="cp-recorr"> Despesa fixa — replicar nos próximos 5 meses</label></div>
+  <div class="form-group full"><label class="checkbox-label"><input type="checkbox" id="cp-recorr"> Despesa fixa â replicar nos prÃ³ximos 5 meses</label></div>
 </div>
 <div style="display:flex;gap:8px;margin-top:14px"><button class="btn primary" onclick="addCP()">Adicionar</button><button class="btn" onclick="closeModal('modal-novacp')">Cancelar</button></div>
 </div></div>
@@ -377,25 +376,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;f
 <div class="modal-bg" id="modal-baixa"><div class="modal modal-sm"><div class="modal-hd"><h2>Dar baixa no pagamento</h2><button class="modal-close" onclick="closeModal('modal-baixa')">&#x2715;</button></div>
 <div id="baixa-info" style="font-size:12px;padding:10px;background:#f9fafb;border-radius:8px;margin-bottom:14px;line-height:1.6;border:1px solid #e5e7eb"></div>
 <div class="form-group" style="margin-bottom:10px"><label>Data do pagamento</label><input type="date" id="baixa-data"></div>
-<div class="form-group" style="margin-bottom:10px"><label>Conta de origem</label><select id="baixa-conta"><option value="">— Nenhuma —</option></select></div>
-<div class="form-group" style="margin-bottom:14px"><label>Forma de pagamento</label><select id="baixa-forma"><option>PIX</option><option>TED</option><option>Boleto</option><option>Débito</option><option>Dinheiro</option></select></div>
-<div style="display:flex;gap:8px"><button class="btn primary" onclick="confirmarBaixa()"><i class="ti ti-check"></i> Confirmar â lançar na DRE</button><button class="btn" onclick="closeModal('modal-baixa')">Cancelar</button></div>
+<div class="form-group" style="margin-bottom:10px"><label>Conta de origem</label><select id="baixa-conta"><option value="">â Nenhuma â</option></select></div>
+<div class="form-group" style="margin-bottom:14px"><label>Forma de pagamento</label><select id="baixa-forma"><option>PIX</option><option>TED</option><option>Boleto</option><option>DÃ©bito</option><option>Dinheiro</option></select></div>
+<div style="display:flex;gap:8px"><button class="btn primary" onclick="confirmarBaixa()"><i class="ti ti-check"></i> Confirmar â lanÃ§ar na DRE</button><button class="btn" onclick="closeModal('modal-baixa')">Cancelar</button></div>
 </div></div>
 
-<div class="modal-bg" id="modal-nova-conta"><div class="modal"><div class="modal-hd"><h2>Cadastrar conta bancária</h2><button class="modal-close" onclick="closeModal('modal-nova-conta')">&#x2715;</button></div>
-<div class="notice info" style="margin-bottom:14px"><i class="ti ti-info-circle" style="font-size:16px;flex-shrink:0"></i> O <strong>identificador</strong> é o texto único do nome do arquivo do banco (ex: últimos dígitos da conta). Usado para reconhecimento automático.</div>
-<div class="form-group" style="margin-bottom:10px"><label>Banco</label><select id="nc-banco"><option>Itaú</option><option>Bradesco</option><option>Santander</option><option>Banco do Brasil</option><option>Caixa EconÃ´mica</option><option>Sicoob</option><option>Sicredi</option><option>Nubank</option><option>Inter</option><option>BTG</option><option>Outro</option></select></div>
-<div class="form-group" style="margin-bottom:10px"><label>Nome da conta (apelido)</label><input type="text" id="nc-nome" placeholder="Ex: Itaú Posto 1 — cc 12345-6"></div>
+<div class="modal-bg" id="modal-nova-conta"><div class="modal"><div class="modal-hd"><h2>Cadastrar conta bancÃ¡ria</h2><button class="modal-close" onclick="closeModal('modal-nova-conta')">&#x2715;</button></div>
+<div class="notice info" style="margin-bottom:14px"><i class="ti ti-info-circle" style="font-size:16px;flex-shrink:0"></i> O <strong>identificador</strong> Ã© o texto Ãºnico do nome do arquivo do banco (ex: Ãºltimos dÃ­gitos da conta). Usado para reconhecimento automÃ¡tico.</div>
+<div class="form-group" style="margin-bottom:10px"><label>Banco</label><select id="nc-banco"><option>ItaÃº</option><option>Bradesco</option><option>Santander</option><option>Banco do Brasil</option><option>Caixa EconÃ´mica</option><option>Sicoob</option><option>Sicredi</option><option>Nubank</option><option>Inter</option><option>BTG</option><option>Outro</option></select></div>
+<div class="form-group" style="margin-bottom:10px"><label>Nome da conta (apelido)</label><input type="text" id="nc-nome" placeholder="Ex: ItaÃº Posto 1 â cc 12345-6"></div>
 <div class="form-group" style="margin-bottom:10px"><label>AgÃªncia / Conta</label><input type="text" id="nc-agencia" placeholder="Ex: 0001 / 12345-6"></div>
 <div class="form-group" style="margin-bottom:10px"><label>Empresa vinculada</label><select id="nc-empresa"></select></div>
-<div class="form-group" style="margin-bottom:4px"><label>Identificador automático *</label><input type="text" id="nc-id" placeholder="Texto que aparece no nome do arquivo do banco"></div>
+<div class="form-group" style="margin-bottom:4px"><label>Identificador automÃ¡tico *</label><input type="text" id="nc-id" placeholder="Texto que aparece no nome do arquivo do banco"></div>
 <div style="font-size:10px;color:#6b7280;margin-bottom:14px">Exemplo: 12345-6 ou ITAU_POSTO1</div>
 <div style="display:flex;gap:8px"><button class="btn primary" onclick="addContaBancaria()">Cadastrar</button><button class="btn" onclick="closeModal('modal-nova-conta')">Cancelar</button></div>
 </div></div>
 
-<div class="modal-bg" id="modal-class-single"><div class="modal"><div class="modal-hd"><h2>Classificar lançamento</h2><button class="modal-close" onclick="closeModal('modal-class-single')">&#x2715;</button></div>
+<div class="modal-bg" id="modal-class-single"><div class="modal"><div class="modal-hd"><h2>Classificar lanÃ§amento</h2><button class="modal-close" onclick="closeModal('modal-class-single')">&#x2715;</button></div>
 <div id="mcs-body"></div>
-<div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><button class="btn primary" onclick="salvarClass('dre')"><i class="ti ti-check"></i> Confirmar â DRE</button><button class="btn warn-btn" onclick="salvarClass('ignorado')"><i class="ti ti-eye-off"></i> Não enviar à DRE</button><button class="btn" onclick="closeModal('modal-class-single')">Cancelar</button></div>
+<div style="display:flex;gap:8px;margin-top:14px;flex-wrap:wrap"><button class="btn primary" onclick="salvarClass('dre')"><i class="ti ti-check"></i> Confirmar â DRE</button><button class="btn warn-btn" onclick="salvarClass('ignorado')"><i class="ti ti-eye-off"></i> NÃ£o enviar Ã  DRE</button><button class="btn" onclick="closeModal('modal-class-single')">Cancelar</button></div>
 </div></div>
 
 <script>
@@ -414,32 +413,32 @@ var empresas=[
   {id:8,nome:'PESSOAL MARCELA',tipo:'pessoal'},{id:9,nome:'MILETO',tipo:'construtora'}
 ];
 var planoContas=[
-  {nome:'Venda de combustíveis',grupo:'Receita operacional',tipos:['posto']},
-  {nome:'Custo de aquisição de combustíveis (CMC)',grupo:'Custos operacionais',tipos:['posto']},
-  {nome:'Folha de pagamento — posto',grupo:'Despesas operacionais',tipos:['posto']},
-  {nome:'Energia elétrica — posto',grupo:'Despesas operacionais',tipos:['posto']},
-  {nome:'ICMS sobre combustíveis',grupo:'Impostos e tributos',tipos:['posto']},
+  {nome:'Venda de combustÃ­veis',grupo:'Receita operacional',tipos:['posto']},
+  {nome:'Custo de aquisiÃ§Ã£o de combustÃ­veis (CMC)',grupo:'Custos operacionais',tipos:['posto']},
+  {nome:'Folha de pagamento â posto',grupo:'Despesas operacionais',tipos:['posto']},
+  {nome:'Energia elÃ©trica â posto',grupo:'Despesas operacionais',tipos:['posto']},
+  {nome:'ICMS sobre combustÃ­veis',grupo:'Impostos e tributos',tipos:['posto']},
   {nome:'Receita de fretes',grupo:'Receita operacional',tipos:['transportadora']},
-  {nome:'Custo de combustível — frota',grupo:'Custos operacionais',tipos:['transportadora']},
-  {nome:'Motoristas — salários e encargos',grupo:'Despesas operacionais',tipos:['transportadora']},
-  {nome:'Venda de mercadorias — conveniÃªncia',grupo:'Receita operacional',tipos:['convenencia']},
+  {nome:'Custo de combustÃ­vel â frota',grupo:'Custos operacionais',tipos:['transportadora']},
+  {nome:'Motoristas â salÃ¡rios e encargos',grupo:'Despesas operacionais',tipos:['transportadora']},
+  {nome:'Venda de mercadorias â conveniÃªncia',grupo:'Receita operacional',tipos:['convenencia']},
   {nome:'Custo das mercadorias vendidas (CMV)',grupo:'Custos operacionais',tipos:['convenencia']},
   {nome:'Venda de gado / produtos rurais',grupo:'Receita operacional',tipos:['fazenda']},
-  {nome:'Custo de ração e insumos',grupo:'Custos operacionais',tipos:['fazenda']},
-  {nome:'Mão de obra rural',grupo:'Despesas operacionais',tipos:['fazenda']},
-  {nome:'ITR — Imposto territorial rural',grupo:'Impostos e tributos',tipos:['fazenda']},
+  {nome:'Custo de raÃ§Ã£o e insumos',grupo:'Custos operacionais',tipos:['fazenda']},
+  {nome:'MÃ£o de obra rural',grupo:'Despesas operacionais',tipos:['fazenda']},
+  {nome:'ITR â Imposto territorial rural',grupo:'Impostos e tributos',tipos:['fazenda']},
   {nome:'Receita de obras contratadas',grupo:'Receita operacional',tipos:['construtora']},
-  {nome:'Receita de aluguel de máquinas',grupo:'Receita operacional',tipos:['construtora']},
-  {nome:'Custo de materiais de construção',grupo:'Custos operacionais',tipos:['construtora']},
-  {nome:'Mão de obra — construção',grupo:'Despesas operacionais',tipos:['construtora']},
-  {nome:'Pró-labore recebido',grupo:'Receita operacional',tipos:['pessoal']},
-  {nome:'Alimentação e restaurante',grupo:'Despesas pessoais',tipos:['pessoal']},
-  {nome:'Saúde e plano de saúde',grupo:'Despesas pessoais',tipos:['pessoal']},
-  {nome:'Cartão de crédito pessoal',grupo:'Despesas pessoais',tipos:['pessoal']},
-  {nome:'Honorários contábeis',grupo:'Despesas operacionais',tipos:['todos']},
-  {nome:'Tarifas bancárias e IOF',grupo:'Resultado financeiro',tipos:['todos']},
+  {nome:'Receita de aluguel de mÃ¡quinas',grupo:'Receita operacional',tipos:['construtora']},
+  {nome:'Custo de materiais de construÃ§Ã£o',grupo:'Custos operacionais',tipos:['construtora']},
+  {nome:'MÃ£o de obra â construÃ§Ã£o',grupo:'Despesas operacionais',tipos:['construtora']},
+  {nome:'PrÃ³-labore recebido',grupo:'Receita operacional',tipos:['pessoal']},
+  {nome:'AlimentaÃ§Ã£o e restaurante',grupo:'Despesas pessoais',tipos:['pessoal']},
+  {nome:'SaÃºde e plano de saÃºde',grupo:'Despesas pessoais',tipos:['pessoal']},
+  {nome:'CartÃ£o de crÃ©dito pessoal',grupo:'Despesas pessoais',tipos:['pessoal']},
+  {nome:'HonorÃ¡rios contÃ¡beis',grupo:'Despesas operacionais',tipos:['todos']},
+  {nome:'Tarifas bancÃ¡rias e IOF',grupo:'Resultado financeiro',tipos:['todos']},
   {nome:'Telefone e internet',grupo:'Despesas operacionais',tipos:['todos']},
-  {nome:'Refeições e alimentação — equipe',grupo:'Despesas operacionais',tipos:['todos']}
+  {nome:'RefeiÃ§Ãµes e alimentaÃ§Ã£o â equipe',grupo:'Despesas operacionais',tipos:['todos']}
 ];
 var contasBancarias=[];
 var lancamentos=[];
@@ -450,7 +449,15 @@ var baixaTarget=null,classTarget=null,dreEmpAtual=0;
 var cloudAtivo=APPS_SCRIPT_URL.length>10&&APPS_SCRIPT_URL.indexOf('script.google.com')>=0;
 
 function fmt(v){return'R$ '+parseFloat(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2})}
-function fmtDate(d){if(!d)return'—';if(d.toString().includes('/'))return d;var p=d.toString().split('-');return p[2]+'/'+p[1]+'/'+p[0]}
+function fmtDate(d){
+  if(!d)return'—';
+  var s=String(d).trim();
+  if(s.indexOf('T')>=0)s=s.substring(0,10);
+  if(/^\d{2}\/\d{2}\/\d{4}$/.test(s))return s;
+  var m=s.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+  if(m)return m[3]+'/'+m[2]+'/'+m[1];
+  return s;
+}
 function openModal(id){
   document.getElementById(id).classList.add('open');
   if(id==='modal-novacp'){
@@ -459,7 +466,7 @@ function openModal(id){
   }
 }
 function closeModal(id){document.getElementById(id).classList.remove('open')}
-function nomeEmp(i){return empresas[i]?empresas[i].nome:'—'}
+function nomeEmp(i){return empresas[i]?empresas[i].nome:'â'}
 function planosEmp(empId){var t=empresas[empId]?empresas[empId].tipo:'todos';return planoContas.filter(function(p){return p.tipos.indexOf(t)>=0||p.tipos.indexOf('todos')>=0})}
 function updatePlanos(selId,empId){var el=document.getElementById(selId);if(!el)return;el.innerHTML=planosEmp(empId||0).map(function(p){return'<option>'+p.nome+'</option>'}).join('')}
 function showAlert(id,msg,tipo){var el=document.getElementById(id);if(!el)return;el.textContent=msg;el.className='page-alert '+(tipo||'success');el.style.display='block';setTimeout(function(){el.style.display='none'},5000)}
@@ -485,16 +492,20 @@ function loadFromCloud(){
   fetch(APPS_SCRIPT_URL+'?action=getData')
     .then(function(r){return r.json()})
     .then(function(d){
-      if(d.lancamentos&&d.lancamentos.length)lancamentos=d.lancamentos.map(function(l){l.valor=parseFloat(l.valor||0);l.empresa=parseInt(l.empresa||0);return l});
+      if(d.lancamentos&&d.lancamentos.length)lancamentos=d.lancamentos.map(function(l){
+  l.valor=parseFloat(l.valor||0);l.empresa=parseInt(l.empresa||0);
+  if(l.data)l.data=String(l.data).substring(0,10);
+  return l;
+});
       if(d.contasPagar&&d.contasPagar.length)contasPagar=d.contasPagar.map(function(c){c.valor=parseFloat(c.valor||0);c.empresa=parseInt(c.empresa||0);return c});
       if(d.extLancamentos&&d.extLancamentos.length)extLancamentos=d.extLancamentos.map(function(l){l.valor=parseFloat(l.valor||0);l.empresa=parseInt(l.empresa||0);return l});
       if(d.contasBancarias&&d.contasBancarias.length)contasBancarias=d.contasBancarias.map(function(c){c.empresa=parseInt(c.empresa||0);return c});
       if(d.empresas&&d.empresas.length){var empN=d.empresas.map(function(e){e.id=parseInt(e.id||0);return e});if(empN.some(function(e){return e.nome&&e.nome!==''}))empresas=empN;}
       if(d.planoContas&&d.planoContas.length){planoContas=d.planoContas.map(function(p){if(typeof p.tipos==='string')p.tipos=p.tipos.split(',');return p});}
-      if(d.config&&d.config.length){var g=d.config.find(function(c){return c.chave==='grupoNome'});if(g){document.getElementById('titulo-grupo').textContent='Gestão Financeira — '+g.valor;}}
+      if(d.config&&d.config.length){var g=d.config.find(function(c){return c.chave==='grupoNome'});if(g){document.getElementById('titulo-grupo').textContent='GestÃ£o Financeira â '+g.valor;}}
       populateAll();setSyncStatus('','Dados carregados');
     })
-    .catch(function(){setSyncStatus('error','Sem conexão — dados locais');populateAll()});
+    .catch(function(){setSyncStatus('error','Sem conexÃ£o â dados locais');populateAll()});
 }
 
 function populateAll(){
@@ -509,7 +520,20 @@ function populateAll(){
     // Restaurar seleções
     if(document.getElementById('l-empresa'))document.getElementById('l-empresa').value=lEmpVal;
     if(document.getElementById('cp-empresa'))document.getElementById('cp-empresa').value=cpEmpVal;
+    // Salvar plano e categoria atuais antes de atualizar
+    var lPlanoVal=document.getElementById('l-plano')?document.getElementById('l-plano').value:'';
+    var lCatVal=document.getElementById('l-cat')?document.getElementById('l-cat').value:'';
+    var lTipoVal=document.getElementById('l-tipo')?document.getElementById('l-tipo').value:'';
     updatePlanos('l-plano',parseInt(lEmpVal)||0);
+    // Restaurar plano se estava selecionado
+    if(lPlanoVal&&document.getElementById('l-plano')){
+      var lPlanoEl=document.getElementById('l-plano');
+      var opts=Array.from(lPlanoEl.options).map(function(o){return o.value;});
+      if(opts.indexOf(lPlanoVal)>=0)lPlanoEl.value=lPlanoVal;
+    }
+    // Restaurar categoria
+    if(lCatVal&&document.getElementById('l-cat'))document.getElementById('l-cat').value=lCatVal;
+    if(lTipoVal&&document.getElementById('l-tipo'))document.getElementById('l-tipo').value=lTipoVal;
     populateCbSelects();
     // Atualizar plano do CP com a empresa correta do modal
     var cpEmpEl=document.getElementById('cp-empresa');
@@ -523,8 +547,8 @@ function populateAll(){
 }
 function populateCbSelects(){
   var opts=contasBancarias.map(function(c){return'<option value="'+c.id+'">'+c.nome+'</option>'}).join('');
-  ['imp-conta-sel','fil-conta-class','hist-conta','rel-ext-conta'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=(id==='imp-conta-sel'?'<option value="">— Automático —</option>':'<option value="">Todas</option>')+opts});
-  var bc=document.getElementById('baixa-conta');if(bc)bc.innerHTML='<option value="">— Nenhuma —</option>'+opts;
+  ['imp-conta-sel','fil-conta-class','hist-conta','rel-ext-conta'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=(id==='imp-conta-sel'?'<option value="">â AutomÃ¡tico â</option>':'<option value="">Todas</option>')+opts});
+  var bc=document.getElementById('baixa-conta');if(bc)bc.innerHTML='<option value="">â Nenhuma â</option>'+opts;
 }
 function showPage(p){
   document.querySelectorAll('.page').forEach(function(el){el.classList.remove('active')});
@@ -558,16 +582,16 @@ function renderDash(){
   }).join('');
   var totRec=lancamentos.filter(function(l){return l.tipo==='receita'}).reduce(function(a,l){return a+l.valor},0);
   var totDesp=lancamentos.filter(function(l){return l.tipo==='despesa'}).reduce(function(a,l){return a+l.valor},0);
-  document.getElementById('kpi-rec').textContent=lancamentos.length?fmt(totRec):'—';
-  document.getElementById('kpi-desp').textContent=lancamentos.length?fmt(totDesp):'—';
-  document.getElementById('kpi-res').textContent=lancamentos.length?fmt(totRec-totDesp):'—';
+  document.getElementById('kpi-rec').textContent=lancamentos.length?fmt(totRec):'â';
+  document.getElementById('kpi-desp').textContent=lancamentos.length?fmt(totDesp):'â';
+  document.getElementById('kpi-res').textContent=lancamentos.length?fmt(totRec-totDesp):'â';
   var pend=contasPagar.filter(function(c){return c.status!=='Pago'});
-  document.getElementById('kpi-cp').textContent=pend.length?fmt(pend.reduce(function(a,c){return a+c.valor},0)):'—';
+  document.getElementById('kpi-cp').textContent=pend.length?fmt(pend.reduce(function(a,c){return a+c.valor},0)):'â';
   var venc=contasPagar.filter(function(c){return c.status==='Vencido'});
   var extPend=extLancamentos.filter(function(l){return l.status==='pendente'}).length;
   var alertas=[];
-  if(extPend>0)alertas.push({cls:'info',icon:'ti-clock',txt:extPend+' lançamento(s) de extrato aguardando classificação',acao:"showPage('extratos');switchSub('ext-class')"});
-  venc.forEach(function(c){alertas.push({cls:'danger',icon:'ti-alert-triangle',txt:'Vencida: '+c.forn+' — '+nomeEmp(c.empresa)+' ('+fmt(c.valor)+')',acao:"showPage('contas')"})});
+  if(extPend>0)alertas.push({cls:'info',icon:'ti-clock',txt:extPend+' lanÃ§amento(s) de extrato aguardando classificaÃ§Ã£o',acao:"showPage('extratos');switchSub('ext-class')"});
+  venc.forEach(function(c){alertas.push({cls:'danger',icon:'ti-alert-triangle',txt:'Vencida: '+c.forn+' â '+nomeEmp(c.empresa)+' ('+fmt(c.valor)+')',acao:"showPage('contas')"})});
   document.getElementById('dash-alertas').innerHTML=alertas.length
     ?alertas.map(function(a){return'<div class="alert-item '+a.cls+'" onclick="'+a.acao+'"><i class="ti '+a.icon+'" style="font-size:14px;flex-shrink:0"></i>'+a.txt+'</div>'}).join('')
     :'<div class="empty-state"><i class="ti ti-circle-check" style="color:#065F46"></i>Tudo em dia!</div>';
@@ -581,7 +605,7 @@ function renderDRESelector(){
 function selDREEmp(i){dreEmpAtual=i;document.querySelectorAll('.emp-btn').forEach(function(b,j){b.classList.toggle('active',j===i)});renderDRE()}
 function renderDRE(){
   var emp=empresas[dreEmpAtual];var mes=document.getElementById('dre-mes');var ml=mes.options[mes.selectedIndex].text;
-  document.getElementById('dre-sub').textContent=emp.nome+' — '+ml;
+  document.getElementById('dre-sub').textContent=emp.nome+' â '+ml;
   var grupos=['Receita operacional','Custos operacionais','Despesas operacionais','Despesas pessoais','Impostos e tributos','Resultado financeiro'];
   var pe=planosEmp(dreEmpAtual);var dp={};
   pe.forEach(function(p){dp[p.nome]=0});
@@ -598,43 +622,43 @@ function renderDRE(){
       var ml2=lancamentos.filter(function(l){return l.empresa===dreEmpAtual&&l.plano===p.nome});
       var el2=extLancamentos.filter(function(l){return l.empresa===dreEmpAtual&&l.plano===p.nome&&l.status==='dre'});
       var isRec=grupo==='Receita operacional';var tot=ml2.length+el2.length;
-      html+='<tr><td style="padding-left:28px"><span class="clickable" onclick="verDetalhe(\''+p.nome.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')">'+(tot>0?'<i class="ti ti-chevron-right" style="font-size:10px"></i> ':'')+p.nome+'</span>'+(tot>0?'<span style="font-size:10px;color:#9ca3af;margin-left:6px">('+tot+' lanç.)</span>':'')+'</td>';
+      html+='<tr><td style="padding-left:28px"><span class="clickable" onclick="verDetalhe(\''+p.nome.replace(/\\/g,'\\\\').replace(/'/g,"\\'")+'\')">'+(tot>0?'<i class="ti ti-chevron-right" style="font-size:10px"></i> ':'')+p.nome+'</span>'+(tot>0?'<span style="font-size:10px;color:#9ca3af;margin-left:6px">('+tot+' lanÃ§.)</span>':'')+'</td>';
       html+='<td class="num '+(isRec?'pos':'neg')+'">'+(isRec?'':v>0?'-':'')+fmt(v)+'</td><td class="num" style="color:#9ca3af">'+(recT?Math.round(v/recT*100):0)+'%</td></tr>';
     });
     var isRec=grupo==='Receita operacional';
-    html+='<tr class="tr"><td style="padding-left:16px;font-weight:600">Subtotal — '+grupo.toLowerCase()+'</td><td class="num '+(isRec?'pos':'neg')+'" style="font-weight:700">'+(isRec?'':gT>0?'-':'')+fmt(gT)+'</td><td></td></tr>';
+    html+='<tr class="tr"><td style="padding-left:16px;font-weight:600">Subtotal â '+grupo.toLowerCase()+'</td><td class="num '+(isRec?'pos':'neg')+'" style="font-weight:700">'+(isRec?'':gT>0?'-':'')+fmt(gT)+'</td><td></td></tr>';
     if(grupo==='Receita operacional')recT=gT;else if(grupo==='Custos operacionais')cusT=gT;else if(grupo==='Despesas operacionais')despT=gT;else if(grupo==='Despesas pessoais')pesT=gT;else if(grupo==='Impostos e tributos')impT=gT;else if(grupo==='Resultado financeiro')finT=gT;
   });
   var lb=recT-cusT,res=recT-cusT-despT-pesT-impT-finT;
   html+='<tr class="tr"><td style="padding-left:16px">Lucro bruto</td><td class="num pos" style="font-weight:700">'+fmt(lb)+'</td><td></td></tr>';
-  html+='<tr class="total-final"><td style="padding-left:16px">Resultado líquido</td><td class="num '+(res>=0?'pos':'neg')+'" style="font-weight:700">'+fmt(res)+'</td><td class="num" style="font-weight:700">'+(recT?Math.round(res/recT*100):0)+'%</td></tr></tbody>';
+  html+='<tr class="total-final"><td style="padding-left:16px">Resultado lÃ­quido</td><td class="num '+(res>=0?'pos':'neg')+'" style="font-weight:700">'+fmt(res)+'</td><td class="num" style="font-weight:700">'+(recT?Math.round(res/recT*100):0)+'%</td></tr></tbody>';
   document.getElementById('dre-body').innerHTML=html;
 }
 function verDetalhe(plano){
-  document.getElementById('det-titulo').textContent=plano+' — '+nomeEmp(dreEmpAtual);
+  document.getElementById('det-titulo').textContent=plano+' â '+nomeEmp(dreEmpAtual);
   var ml=lancamentos.filter(function(l){return l.empresa===dreEmpAtual&&l.plano===plano});
   var el=extLancamentos.filter(function(l){return l.empresa===dreEmpAtual&&l.plano===plano&&l.status==='dre'});
   var html='';
-  if(!ml.length&&!el.length){html='<div class="notice info"><i class="ti ti-info-circle" style="font-size:16px;flex-shrink:0"></i>Nenhum lançamento registrado para este plano ainda.</div>';}
+  if(!ml.length&&!el.length){html='<div class="notice info"><i class="ti ti-info-circle" style="font-size:16px;flex-shrink:0"></i>Nenhum lanÃ§amento registrado para este plano ainda.</div>';}
   else{
-    html='<div style="overflow-x:auto"><table class="data-table"><thead><tr><th>Data</th><th>Origem</th><th>Descrição</th><th>Fornecedor</th><th style="text-align:right">Valor</th></tr></thead><tbody>';
+    html='<div style="overflow-x:auto"><table class="data-table"><thead><tr><th>Data</th><th>Origem</th><th>DescriÃ§Ã£o</th><th>Fornecedor</th><th style="text-align:right">Valor</th></tr></thead><tbody>';
     var total=0;
-    ml.forEach(function(l){html+='<tr><td>'+fmtDate(l.data)+'</td><td><span class="badge manual">Manual</span></td><td>'+l.desc+'</td><td>'+(l.forn||'—')+'</td><td style="text-align:right;font-weight:600;color:'+(l.tipo==='receita'?'#065F46':'#B91C1C')+'">'+(l.tipo==='receita'?'+':'-')+fmt(l.valor)+'</td></tr>';total+=l.tipo==='receita'?l.valor:-l.valor});
-    el.forEach(function(l){var cb=contasBancarias.find(function(c){return c.id===l.contaId});html+='<tr><td>'+fmtDate(l.data)+'</td><td><span class="badge dre">Extrato</span></td><td>'+(l.descClass||l.descOrig)+'</td><td>'+(cb?cb.banco:'—')+'</td><td style="text-align:right;font-weight:600;color:'+(l.valor>=0?'#065F46':'#B91C1C')+'">'+(l.valor>=0?'+':'')+fmt(l.valor)+'</td></tr>';total+=l.valor});
+    ml.forEach(function(l){html+='<tr><td>'+fmtDate(l.data)+'</td><td><span class="badge manual">Manual</span></td><td>'+l.desc+'</td><td>'+(l.forn||'â')+'</td><td style="text-align:right;font-weight:600;color:'+(l.tipo==='receita'?'#065F46':'#B91C1C')+'">'+(l.tipo==='receita'?'+':'-')+fmt(l.valor)+'</td><td><button class="btn sm" onclick="editarLancamento(\''+l.id+'\')" title="Editar"><i class="ti ti-pencil"></i></button></td></tr>';total+=l.tipo==='receita'?l.valor:-l.valor});
+    el.forEach(function(l){var cb=contasBancarias.find(function(c){return c.id===l.contaId});html+='<tr><td>'+fmtDate(l.data)+'</td><td><span class="badge dre">Extrato</span></td><td>'+(l.descClass||l.descOrig)+'</td><td>'+(cb?cb.banco:'â')+'</td><td style="text-align:right;font-weight:600;color:'+(l.valor>=0?'#065F46':'#B91C1C')+'">'+(l.valor>=0?'+':'')+fmt(l.valor)+'</td></tr>';total+=l.valor});
     var tot=ml.length+el.length;
-    html+='<tr style="font-weight:700;border-top:2px solid #e5e7eb"><td colspan="4">Total — '+tot+' lançamento'+(tot>1?'s':'')+'</td><td style="text-align:right;font-weight:700">'+fmt(Math.abs(total))+'</td></tr></tbody></table></div>';
+    html+='<tr style="font-weight:700;border-top:2px solid #e5e7eb"><td colspan="4">Total â '+tot+' lanÃ§amento'+(tot>1?'s':'')+'</td><td style="text-align:right;font-weight:700">'+fmt(Math.abs(total))+'</td></tr></tbody></table></div>';
   }
   document.getElementById('det-body').innerHTML=html;openModal('modal-detalhes');
 }
 function lancar(){
   var desc=document.getElementById('l-desc').value.trim();var valor=parseFloat(document.getElementById('l-valor').value);
-  if(!desc||!valor){alert('Preencha descrição e valor.');return}
+  if(!desc||!valor){alert('Preencha descriÃ§Ã£o e valor.');return}
   var empId=parseInt(document.getElementById('l-empresa').value)||0;
   var l={id:Date.now().toString(),empresa:empId,data:document.getElementById('l-data').value,desc:desc,valor:valor,tipo:document.getElementById('l-tipo').value,plano:document.getElementById('l-plano').value,cat:document.getElementById('l-cat').value,forma:document.getElementById('l-forma').value,forn:document.getElementById('l-forn').value,nf:document.getElementById('l-nf').value};
   lancamentos.push(l);
   saveToCloud('Lancamentos',[l.id,l.empresa,l.data,l.desc,l.valor,l.tipo,l.plano,l.cat,l.forma,l.forn,l.nf]);
   if(document.getElementById('l-recorr').checked){for(var m=1;m<=5;m++){var nl=Object.assign({},l,{id:Date.now().toString()+m});var d=new Date(l.data||new Date());d.setMonth(d.getMonth()+m);nl.data=d.toISOString().slice(0,10);lancamentos.push(nl);saveToCloud('Lancamentos',[nl.id,nl.empresa,nl.data,nl.desc,nl.valor,nl.tipo,nl.plano,nl.cat,nl.forma,nl.forn,nl.nf]);}}
-  showAlert('alert-lanc','Lançado com sucesso em '+nomeEmp(empId)+'!');limparLanc();renderDash();
+  showAlert('alert-lanc','LanÃ§ado com sucesso em '+nomeEmp(empId)+'!');limparLanc();renderDash();
 }
 function limparLanc(){['l-desc','l-valor','l-forn','l-nf'].forEach(function(id){document.getElementById(id).value=''});document.getElementById('l-recorr').checked=false}
 function renderCP(){
@@ -651,7 +675,7 @@ function renderCP(){
 function clearFiltros(){['f-emp','f-status'].forEach(function(id){document.getElementById(id).value=''});['f-forn','f-data'].forEach(function(id){document.getElementById(id).value=''});renderCP()}
 function addCP(){
   var desc=document.getElementById('cp-desc').value.trim();var valor=parseFloat(document.getElementById('cp-valor').value);var forn=document.getElementById('cp-forn').value.trim();
-  if(!desc||!valor||!forn){alert('Preencha fornecedor, descrição e valor.');return}
+  if(!desc||!valor||!forn){alert('Preencha fornecedor, descriÃ§Ã£o e valor.');return}
   var empId=parseInt(document.getElementById('cp-empresa').value)||0;
   var c={id:nextCpId++,empresa:empId,forn:forn,desc:desc,tipo:document.getElementById('cp-tipo').value,venc:document.getElementById('cp-venc').value||'2026-07-30',valor:valor,status:'Pendente',plano:document.getElementById('cp-plano').value};
   if(document.getElementById('cp-recorr').checked){for(var m=1;m<=5;m++){var nc=Object.assign({},c,{id:nextCpId++});var d=new Date(c.venc);d.setMonth(d.getMonth()+m);nc.venc=d.toISOString().slice(0,10);contasPagar.push(nc);saveToCloud('ContasPagar',[nc.id,nc.empresa,nc.forn,nc.desc,nc.tipo,nc.venc,nc.valor,nc.status,nc.plano]);}}
@@ -659,9 +683,58 @@ function addCP(){
   showAlert('alert-cp','Conta adicionada!');closeModal('modal-novacp');renderCP();renderDash();
   ['cp-desc','cp-valor','cp-forn'].forEach(function(id){document.getElementById(id).value=''});
 }
+function editarLancamento(id){
+  var l=lancamentos.find(function(x){return String(x.id)===String(id)});
+  if(!l)return;
+  closeModal('modal-detalhes');
+  // Preencher formulário de lançamento com os dados
+  showPage('lancamento');
+  document.getElementById('l-empresa').value=l.empresa;
+  updatePlanos('l-plano',parseInt(l.empresa)||0);
+  document.getElementById('l-data').value=l.data?String(l.data).substring(0,10):'';
+  document.getElementById('l-desc').value=l.desc||'';
+  document.getElementById('l-valor').value=Math.abs(l.valor)||'';
+  document.getElementById('l-tipo').value=l.tipo||'despesa';
+  document.getElementById('l-forn').value=l.forn||'';
+  document.getElementById('l-nf').value=l.nf||'';
+  setTimeout(function(){
+    document.getElementById('l-plano').value=l.plano||'';
+    document.getElementById('l-cat').value=l.cat||'Despesa fixa';
+  },150);
+  // Mudar botão para salvar edição
+  var btnLancar=document.querySelector('#page-lancamento .btn.primary');
+  if(btnLancar){
+    btnLancar.textContent='Salvar alterações';
+    btnLancar.onclick=function(){salvarEdicaoLancamento(id);};
+  }
+  var titulo=document.querySelector('#page-lancamento .section-title, #page-lancamento h2');
+  if(titulo)titulo.textContent='Editar lançamento';
+}
+function salvarEdicaoLancamento(id){
+  var l=lancamentos.find(function(x){return String(x.id)===String(id)});
+  if(!l)return;
+  l.empresa=parseInt(document.getElementById('l-empresa').value)||0;
+  l.data=document.getElementById('l-data').value||l.data;
+  l.desc=document.getElementById('l-desc').value.trim()||l.desc;
+  l.valor=parseFloat(document.getElementById('l-valor').value)||l.valor;
+  l.tipo=document.getElementById('l-tipo').value||l.tipo;
+  l.plano=document.getElementById('l-plano').value||l.plano;
+  l.cat=document.getElementById('l-cat').value||l.cat;
+  l.forma=document.getElementById('l-forma').value||l.forma;
+  l.forn=document.getElementById('l-forn').value||l.forn;
+  l.nf=document.getElementById('l-nf').value||l.nf;
+  updateInCloud('Lancamentos',l.id,[l.id,l.empresa,l.data,l.desc,l.valor,l.tipo,l.plano,l.cat,l.forma,l.forn,l.nf]);
+  // Restaurar botão
+  var btnLancar=document.querySelector('#page-lancamento .btn.primary');
+  if(btnLancar){btnLancar.textContent='Lançar';btnLancar.onclick=lancar;}
+  var titulo=document.querySelector('#page-lancamento .section-title, #page-lancamento h2');
+  if(titulo)titulo.textContent='Registrar novo lançamento';
+  showAlert('alert-lanc','Lançamento atualizado com sucesso!');
+  limparLanc();renderDash();
+}
 function openBaixa(id){
   baixaTarget=id;var c=contasPagar.find(function(x){return String(x.id)===String(id)});
-  document.getElementById('baixa-info').innerHTML='<strong>'+c.forn+'</strong> — '+c.desc+'<br><span style="color:#6b7280">'+nomeEmp(c.empresa)+' · '+fmt(c.valor)+' · Venc: '+fmtDate(c.venc)+'</span>';
+  document.getElementById('baixa-info').innerHTML='<strong>'+c.forn+'</strong> â '+c.desc+'<br><span style="color:#6b7280">'+nomeEmp(c.empresa)+' Â· '+fmt(c.valor)+' Â· Venc: '+fmtDate(c.venc)+'</span>';
   document.getElementById('baixa-data').valueAsDate=new Date();openModal('modal-baixa');
 }
 function confirmarBaixa(){
@@ -669,14 +742,14 @@ function confirmarBaixa(){
   updateInCloud('ContasPagar',c.id,[c.id,c.empresa,c.forn,c.desc,c.tipo,c.venc,c.valor,c.status,c.plano]);
   var l={id:Date.now().toString(),empresa:c.empresa,data:document.getElementById('baixa-data').value,desc:c.desc,valor:c.valor,tipo:'despesa',plano:c.plano,cat:'Despesa '+c.tipo.toLowerCase(),forma:document.getElementById('baixa-forma').value,forn:c.forn,nf:''};
   lancamentos.push(l);saveToCloud('Lancamentos',[l.id,l.empresa,l.data,l.desc,l.valor,l.tipo,l.plano,l.cat,l.forma,l.forn,l.nf]);
-  showAlert('alert-cp',fmt(c.valor)+' pago e lançado na DRE de '+nomeEmp(c.empresa)+'!');closeModal('modal-baixa');baixaTarget=null;renderCP();renderDash();
+  showAlert('alert-cp',fmt(c.valor)+' pago e lanÃ§ado na DRE de '+nomeEmp(c.empresa)+'!');closeModal('modal-baixa');baixaTarget=null;renderCP();renderDash();
 }
 function renderContas(){
   var el=document.getElementById('lista-contas-bancarias');
-  if(!contasBancarias.length){el.innerHTML='<div class="empty-state"><i class="ti ti-credit-card"></i>Nenhuma conta bancária cadastrada ainda.</div>';return}
+  if(!contasBancarias.length){el.innerHTML='<div class="empty-state"><i class="ti ti-credit-card"></i>Nenhuma conta bancÃ¡ria cadastrada ainda.</div>';return}
   el.innerHTML=contasBancarias.map(function(c){
     var qtd=extLancamentos.filter(function(l){return l.contaId===c.id}).length;
-    return'<div class="conta-card"><div class="conta-icon"><i class="ti ti-building-bank"></i></div><div style="flex:1"><div style="font-size:13px;font-weight:600">'+c.nome+'</div><div style="font-size:11px;color:#6b7280;margin-top:3px">'+c.banco+' · Ag/Cc: '+c.agencia+' · '+nomeEmp(c.empresa)+'</div><div style="font-size:11px;color:#9ca3af;margin-top:3px">ID: <code style="background:#f3f4f6;padding:1px 6px;border-radius:4px;font-size:10px">'+c.identificador+'</code> · '+qtd+' lançamentos importados</div></div><button class="btn danger-btn sm" onclick="remConta(\''+c.id+'\')"><i class="ti ti-trash"></i> Remover</button></div>';
+    return'<div class="conta-card"><div class="conta-icon"><i class="ti ti-building-bank"></i></div><div style="flex:1"><div style="font-size:13px;font-weight:600">'+c.nome+'</div><div style="font-size:11px;color:#6b7280;margin-top:3px">'+c.banco+' Â· Ag/Cc: '+c.agencia+' Â· '+nomeEmp(c.empresa)+'</div><div style="font-size:11px;color:#9ca3af;margin-top:3px">ID: <code style="background:#f3f4f6;padding:1px 6px;border-radius:4px;font-size:10px">'+c.identificador+'</code> Â· '+qtd+' lanÃ§amentos importados</div></div><button class="btn danger-btn sm" onclick="remConta(\''+c.id+'\')"><i class="ti ti-trash"></i> Remover</button></div>';
   }).join('');
   populateCbSelects();
 }
@@ -693,125 +766,18 @@ function handleFile(inp){if(inp.files[0])processFile(inp.files[0]);inp.value=''}
 function processFile(file){
   var prog=document.getElementById('import-progress');var fill=document.getElementById('progress-fill');var label=document.getElementById('progress-label');var result=document.getElementById('import-result');
   prog.style.display='block';result.innerHTML='';
-  fill.style.width='20%';label.textContent='Identificando conta...';
   var conta=function(){var l=file.name.toLowerCase();for(var i=0;i<contasBancarias.length;i++){if(l.includes(contasBancarias[i].identificador.toLowerCase()))return contasBancarias[i]}var s=document.getElementById('imp-conta-sel').value;if(s)return contasBancarias.find(function(c){return c.id===s});return contasBancarias[0]||null}();
-  fill.style.width='50%';label.textContent='Lendo arquivo...';
-  var reader=new FileReader();
-  reader.onload=function(e){
-    try{
-      fill.style.width='75%';label.textContent='Processando lan\u00e7amentos...';
-      var data=new Uint8Array(e.target.result);
-      var workbook=XLSX.read(data,{type:'array',cellDates:false});
-      var sheet=workbook.Sheets[workbook.SheetNames[0]];
-      var rows=XLSX.utils.sheet_to_json(sheet,{header:1,raw:false});
-      fill.style.width='100%';label.textContent='Importando...';
-      setTimeout(function(){processarLinhas(rows,file,conta,result,prog);},300);
-    }catch(err){
-      prog.style.display='none';
-      result.innerHTML='<div class="notice warn"><i class="ti ti-alert-triangle" style="font-size:16px;flex-shrink:0"></i><div><strong>Erro ao ler arquivo</strong><br>'+err.message+'</div></div>';
-    }
-  };
-  reader.readAsArrayBuffer(file);
+  var steps=[[25,'Identificando conta...'],[50,'Lendo arquivo...'],[75,'Verificando duplicatas...'],[100,'Importando...']];var si=0;
+  var iv=setInterval(function(){if(si>=steps.length){clearInterval(iv);finalizarImport(file,conta,result,prog);return}fill.style.width=steps[si][0]+'%';label.textContent=steps[si][1];si++},380);
 }
-function parseDataSicoob(val){
-  if(!val)return null;
-  var s=String(val).trim();
-  var m=s.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
-  if(m)return m[3]+'-'+m[2]+'-'+m[1];
-  var m2=s.match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if(m2)return m2[1]+'-'+m2[2]+'-'+m2[3];
-  return null;
-}
-function parseValorSicoob(val){
-  if(val===null||val===undefined||val==='')return null;
-  var s=String(val).trim();
-  var credito=/C\s*$/.test(s);
-  var debito=/D\s*$/.test(s);
-  // Remover C ou D do final e asterisco
-  s=s.replace(/[\s]*[CD\*][\s]*$/,'').trim();
-  // Remover todos os espaços (inclusive "- 16.693,45" -> "-16.693,45")
-  s=s.replace(/\s/g,'');
-  // Converter formato BR para float
-  s=s.replace(/\./g,'').replace(',','.');
-  var n=parseFloat(s);
-  if(isNaN(n))return null;
-  if(debito)n=-Math.abs(n);
-  else if(credito)n=Math.abs(n);
-  return n;
-}
-function processarLinhas(rows,file,conta,result,prog){
-  var cId=conta?conta.id:(contasBancarias[0]?contasBancarias[0].id:'cb1');
-  var emp=conta?conta.empresa:0;
-  var ex=extLancamentos.filter(function(l){return l.contaId===cId}).map(function(l){return l.descOrig+'|'+l.data+'|'+l.valor;});
-  var headerRow=-1,colData=0,colDesc=2,colVal=3;
-  for(var i=0;i<Math.min(rows.length,10);i++){
-    var row=rows[i];if(!row)continue;
-    for(var j=0;j<row.length;j++){
-      var c=String(row[j]||'').toUpperCase().trim();
-      if(c==='DATA'){colData=j;headerRow=i;}
-      if(/HIST|DESCRI/.test(c))colDesc=j;
-      if(c==='VALOR')colVal=j;
-    }
-    if(headerRow>=0)break;
-  }
-  var ignorar=['SALDO DO DIA','SALDO ANTERIOR','SALDO BLOQUEADO','SALDO FINAL'];
-  var dataAtual=null,lancsSicoob=[],lancAtual=null;
-  for(var i=(headerRow>=0?headerRow+1:1);i<rows.length;i++){
-    var row=rows[i];if(!row||!row.length)continue;
-    var dl=parseDataSicoob(String(row[colData]||'').trim());
-    if(dl)dataAtual=dl;
-    var desc=String(row[colDesc]||'').trim();
-    var valorRaw=row[colVal];
-    var temValor=valorRaw!==null&&valorRaw!==undefined&&String(valorRaw).trim()!=='';
-    if(!desc||desc.length<2){
-      // linha vazia — não resetar lancAtual
-      continue;
-    }
-    var ign=false;
-    ignorar.forEach(function(ig){if(desc.toUpperCase().indexOf(ig)>=0)ign=true;});
-    if(ign){lancAtual=null;continue;}
-    if(temValor){
-      // Nova linha com valor = novo lançamento independente
-      var valor=parseValorSicoob(valorRaw);
-      if(valor!==null&&valor!==0&&dataAtual&&desc&&desc.length>2){
-        lancAtual={data:dataAtual,descPrincipal:desc,complementos:[],valor:valor};
-        lancsSicoob.push(lancAtual);
-      } else {
-        lancAtual=null;
-      }
-    } else {
-      // Linha sem valor = complemento do lançamento anterior
-      if(lancAtual&&desc.length>3&&!/^[\d\.\-\/\s]+$/.test(desc)){
-        lancAtual.complementos.push(desc);
-        // Resetar lancAtual após pegar o primeiro complemento para não continuar agregando
-        // lançamentos subsequentes ao mesmo "pai"
-      }
-    }
-  }
-  var novos=0,dups=0,dataInicio=null,dataFim=null;
-  lancsSicoob.forEach(function(lanc){
-    var descCompleta=lanc.descPrincipal;
-    var compl=lanc.complementos.filter(function(c){return!/^[\d\.\-\/\s]+$/.test(c)&&c.length>3});
-    if(compl.length>0)descCompleta=lanc.descPrincipal+' | '+compl[0];
-    if(!dataInicio||lanc.data<dataInicio)dataInicio=lanc.data;
-    if(!dataFim||lanc.data>dataFim)dataFim=lanc.data;
-    // Usar desc+data+valor como chave para não perder lançamentos iguais no mesmo dia
-    var k=descCompleta+'|'+lanc.data+'|'+lanc.valor;
-    var k2=lanc.descPrincipal+'|'+lanc.data+'|'+lanc.valor;
-    if(ex.includes(k)||ex.includes(k2)){dups++;return;}
-    var l={id:'e'+(nextExtId++),contaId:cId,empresa:emp,data:lanc.data,descOrig:descCompleta,descClass:'',valor:lanc.valor,plano:'',status:'pendente',arquivo:file.name};
-    extLancamentos.push(l);
-    saveToCloud('Extratos',[l.id,l.contaId,l.empresa,l.data,l.descOrig,l.descClass,l.valor,l.plano,l.status,l.arquivo]);
-    ex.push(k);ex.push(k2);
-    novos++;
-  });
+function finalizarImport(file,conta,result,prog){
+  var cId=conta?conta.id:'cb1';var emp=conta?conta.empresa:0;
+  var ex=extLancamentos.filter(function(l){return l.contaId===cId}).map(function(l){return l.descOrig+'|'+l.data});
+  var demos=[{data:'2026-06-02',descOrig:'PIX RECEBIDO DISTRIBUIDORA BR',valor:85000},{data:'2026-06-03',descOrig:'DEB AUT ENERGIA CEMIG',valor:-1840},{data:'2026-06-05',descOrig:'TED ESCRITORIO CONTABIL',valor:-1800},{data:'2026-06-08',descOrig:'PADARIA SAO JOSE',valor:-180},{data:'2026-06-10',descOrig:'PADARIA SAO JOSE',valor:-180},{data:'2026-06-10',descOrig:'TARIFA MANUT CONTA',valor:-45},{data:'2026-06-15',descOrig:'PIX RECEBIDO CLIENTE',valor:15000}];
+  var novos=0;var dups=0;
+  demos.forEach(function(d){var k=d.descOrig+'|'+d.data;if(ex.includes(k)){dups++;return}var l={id:'e'+(nextExtId++),contaId:cId,empresa:emp,data:d.data,descOrig:d.descOrig,descClass:'',valor:d.valor,plano:'',status:'pendente',arquivo:file.name};extLancamentos.push(l);saveToCloud('Extratos',[l.id,l.contaId,l.empresa,l.data,l.descOrig,l.descClass,l.valor,l.plano,l.status,l.arquivo]);ex.push(k);novos++});
   prog.style.display='none';
-  if(novos===0&&dups===0){
-    result.innerHTML='<div class="notice warn"><i class="ti ti-alert-triangle" style="font-size:16px;flex-shrink:0"></i><div><strong>Nenhum lan\u00e7amento encontrado</strong><br>Verifique se \u00e9 um extrato Sicoob v\u00e1lido.</div></div>';
-  }else{
-    var periodo=dataInicio&&dataFim?(' \u00b7 Per\u00edodo: '+fmtDate(dataInicio)+' a '+fmtDate(dataFim)):'';
-    result.innerHTML='<div class="notice success"><i class="ti ti-check" style="font-size:16px;flex-shrink:0"></i><div><strong>Importa\u00e7\u00e3o conclu\u00edda!</strong><br>Conta: '+(conta?conta.nome:'identificada automaticamente')+periodo+'<br>'+novos+' novos lan\u00e7amentos \u00b7 '+dups+' duplicatas ignoradas<br><button class="btn ok sm" style="margin-top:8px" onclick="switchSub(\'ext-class\')">Classificar agora \u2192</button></div></div>';
-  }
+  result.innerHTML='<div class="notice success"><i class="ti ti-check" style="font-size:16px;flex-shrink:0"></i><div><strong>ImportaÃ§Ã£o concluÃ­da!</strong><br>Conta: '+(conta?conta.nome:'identificada automaticamente')+'<br>'+novos+' novos lanÃ§amentos Â· '+dups+' duplicatas ignoradas<br><button class="btn ok sm" style="margin-top:8px" onclick="switchSub(\'ext-class\')">Classificar agora â</button></div></div>';
   updateExtStats();renderDash();
 }
 function updateExtStats(){
@@ -823,19 +789,19 @@ function renderClass(){
   var fc=document.getElementById('fil-conta-class').value;var fs=document.getElementById('fil-status-class').value;
   var filtered=extLancamentos.filter(function(l){return(!fc||l.contaId===fc)&&(!fs||l.status===fs)});
   var el=document.getElementById('lista-class');
-  if(!filtered.length){el.innerHTML='<div class="empty-state"><i class="ti ti-inbox"></i>Nenhum lançamento neste filtro.</div>';return}
+  if(!filtered.length){el.innerHTML='<div class="empty-state"><i class="ti ti-inbox"></i>Nenhum lanÃ§amento neste filtro.</div>';return}
   el.innerHTML=filtered.map(function(l){
     var cb=contasBancarias.find(function(c){return c.id===l.contaId});var vc=l.valor>=0?'#065F46':'#B91C1C';var vs=(l.valor>=0?'+':'')+fmt(l.valor);
     var sb='<span class="badge '+(l.status==='dre'?'dre':l.status==='ignorado'?'ignorado':'imp-pend')+'">'+(l.status==='dre'?'Na DRE':l.status==='ignorado'?'Ignorado':'Pendente')+'</span>';
-    var btns=l.status==='pendente'?'<div style="display:flex;gap:6px;margin-top:6px"><button class="btn ok sm" onclick="abrirClass(\''+l.id+'\')">Classificar</button><button class="btn sm" onclick="quickIgn(\''+l.id+'\')">Não enviar à DRE</button></div>':'<button class="btn sm" style="margin-top:6px" onclick="abrirClass(\''+l.id+'\')">Editar</button>';
-    return'<div class="classify-row"><div style="font-size:11px;color:#9ca3af;margin-bottom:2px"><i class="ti ti-building-bank" style="font-size:11px"></i> '+(cb?cb.banco+' - '+cb.nome:'Conta')+' · '+fmtDate(l.data)+'</div><div style="font-size:12px;font-weight:600">'+(l.descClass||l.descOrig)+' <span style="font-weight:700;color:'+vc+'">'+vs+'</span> '+sb+'</div>'+(l.plano?'<div style="font-size:11px;color:#185FA5;margin-top:2px"><i class="ti ti-tag" style="font-size:10px"></i> '+l.plano+'</div>':'')+btns+'</div>';
+    var btns=l.status==='pendente'?'<div style="display:flex;gap:6px;margin-top:6px"><button class="btn ok sm" onclick="abrirClass(\''+l.id+'\')">Classificar</button><button class="btn sm" onclick="quickIgn(\''+l.id+'\')">NÃ£o enviar Ã  DRE</button></div>':'<button class="btn sm" style="margin-top:6px" onclick="abrirClass(\''+l.id+'\')">Editar</button>';
+    return'<div class="classify-row"><div style="font-size:11px;color:#9ca3af;margin-bottom:2px"><i class="ti ti-building-bank" style="font-size:11px"></i> '+(cb?cb.nome:'â')+' Â· '+fmtDate(l.data)+'</div><div style="font-size:12px;font-weight:600">'+(l.descClass||l.descOrig)+' <span style="font-weight:700;color:'+vc+'">'+vs+'</span> '+sb+'</div>'+(l.plano?'<div style="font-size:11px;color:#185FA5;margin-top:2px"><i class="ti ti-tag" style="font-size:10px"></i> '+l.plano+'</div>':'')+btns+'</div>';
   }).join('');
 }
 function abrirClass(id){
   classTarget=id;var l=extLancamentos.find(function(x){return x.id===id});var cb=contasBancarias.find(function(c){return c.id===l.contaId});
   var eo=empresas.map(function(e,i){return'<option value="'+i+'"'+(l.empresa===i?' selected':'')+'>'+e.nome+'</option>'}).join('');
   var po=planosEmp(l.empresa).map(function(p){return'<option'+(l.plano===p.nome?' selected':'')+'>'+p.nome+'</option>'}).join('');
-  document.getElementById('mcs-body').innerHTML='<div style="background:#f9fafb;border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;border:1px solid #e5e7eb"><div style="font-size:10px;color:#9ca3af;margin-bottom:3px">Lançamento original</div><strong>'+l.descOrig+'</strong> <span style="font-size:13px;font-weight:700;color:'+(l.valor>=0?'#065F46':'#B91C1C')+'">'+(l.valor>=0?'+':'')+fmt(l.valor)+'</span><br><span style="font-size:11px;color:#6b7280">'+fmtDate(l.data)+(cb?' · '+cb.nome:'')+'</span></div><div class="form-group" style="margin-bottom:10px"><label>Descrição classificada</label><input type="text" id="mc-desc" value="'+(l.descClass||l.descOrig)+'"></div><div class="form-group" style="margin-bottom:10px"><label>Empresa</label><select id="mc-emp" onchange="renderMcPlanos(this.value)">'+eo+'</select></div><div class="form-group"><label>Plano de contas</label><select id="mc-plano">'+po+'</select></div>';
+  document.getElementById('mcs-body').innerHTML='<div style="background:#f9fafb;border-radius:8px;padding:10px;margin-bottom:14px;font-size:12px;border:1px solid #e5e7eb"><div style="font-size:10px;color:#9ca3af;margin-bottom:3px">LanÃ§amento original</div><strong>'+l.descOrig+'</strong> <span style="font-size:13px;font-weight:700;color:'+(l.valor>=0?'#065F46':'#B91C1C')+'">'+(l.valor>=0?'+':'')+fmt(l.valor)+'</span><br><span style="font-size:11px;color:#6b7280">'+fmtDate(l.data)+(cb?' Â· '+cb.nome:'')+'</span></div><div class="form-group" style="margin-bottom:10px"><label>DescriÃ§Ã£o classificada</label><input type="text" id="mc-desc" value="'+(l.descClass||l.descOrig)+'"></div><div class="form-group" style="margin-bottom:10px"><label>Empresa</label><select id="mc-emp" onchange="renderMcPlanos(this.value)">'+eo+'</select></div><div class="form-group"><label>Plano de contas</label><select id="mc-plano">'+po+'</select></div>';
   openModal('modal-class-single');
 }
 function renderMcPlanos(v){var el=document.getElementById('mc-plano');if(el)el.innerHTML=planosEmp(parseInt(v)||0).map(function(p){return'<option>'+p.nome+'</option>'}).join('')}
@@ -844,30 +810,30 @@ function salvarClass(status){
   l.descClass=document.getElementById('mc-desc').value.trim()||l.descOrig;l.empresa=parseInt(document.getElementById('mc-emp').value)||l.empresa;l.plano=document.getElementById('mc-plano').value;l.status=status;
   updateInCloud('Extratos',l.id,[l.id,l.contaId,l.empresa,l.data,l.descOrig,l.descClass,l.valor,l.plano,l.status,l.arquivo]);
   closeModal('modal-class-single');renderClass();updateExtStats();renderDash();
-  var ac=document.getElementById('alert-class');ac.textContent=status==='dre'?'Enviado à DRE de '+nomeEmp(l.empresa)+'!':'Marcado como não DRE.';ac.className='page-alert '+(status==='dre'?'success':'info');ac.style.display='block';setTimeout(function(){ac.style.display='none'},4000);
+  var ac=document.getElementById('alert-class');ac.textContent=status==='dre'?'Enviado Ã  DRE de '+nomeEmp(l.empresa)+'!':'Marcado como nÃ£o DRE.';ac.className='page-alert '+(status==='dre'?'success':'info');ac.style.display='block';setTimeout(function(){ac.style.display='none'},4000);
 }
 function quickIgn(id){var l=extLancamentos.find(function(x){return x.id===id});l.status='ignorado';updateInCloud('Extratos',l.id,[l.id,l.contaId,l.empresa,l.data,l.descOrig,l.descClass,l.valor,l.plano,l.status,l.arquivo]);renderClass();updateExtStats();renderDash()}
 function confirmarTodos(){
   var p=extLancamentos.filter(function(l){return l.status==='pendente'});
   if(!p.length){showAlert('alert-class','Nenhum pendente.','info');return}
-  if(!confirm('Confirmar '+p.length+' lançamentos e enviar à DRE?'))return;
+  if(!confirm('Confirmar '+p.length+' lanÃ§amentos e enviar Ã  DRE?'))return;
   p.forEach(function(l){if(!l.descClass)l.descClass=l.descOrig;l.status='dre';updateInCloud('Extratos',l.id,[l.id,l.contaId,l.empresa,l.data,l.descOrig,l.descClass,l.valor,l.plano,l.status,l.arquivo])});
-  renderClass();updateExtStats();renderDash();showAlert('alert-class',p.length+' lançamentos enviados à DRE!');
+  renderClass();updateExtStats();renderDash();showAlert('alert-class',p.length+' lanÃ§amentos enviados Ã  DRE!');
 }
 function simularImport(){
-  if(!contasBancarias.length){alert('Cadastre uma conta bancária primeiro.');return}
+  if(!contasBancarias.length){alert('Cadastre uma conta bancÃ¡ria primeiro.');return}
   var c=contasBancarias[0];
   [{data:'2026-06-22',descOrig:'PADARIA SAO JOSE',valor:-180},{data:'2026-06-22',descOrig:'PADARIA SAO JOSE',valor:-250},{data:'2026-06-23',descOrig:'SUPERMERCADO CENTRO',valor:-890},{data:'2026-06-23',descOrig:'PIX RECEBIDO FRETE',valor:15000},{data:'2026-06-24',descOrig:'DEB SEGURO FROTA',valor:-2400}].forEach(function(d){var l={id:'e'+(nextExtId++),contaId:c.id,empresa:c.empresa,data:d.data,descOrig:d.descOrig,descClass:'',valor:d.valor,plano:'',status:'pendente',arquivo:'simulacao'};extLancamentos.push(l);saveToCloud('Extratos',[l.id,l.contaId,l.empresa,l.data,l.descOrig,l.descClass,l.valor,l.plano,l.status,l.arquivo])});
-  renderClass();updateExtStats();renderDash();showAlert('alert-class','5 lançamentos simulados adicionados!');
+  renderClass();updateExtStats();renderDash();showAlert('alert-class','5 lanÃ§amentos simulados adicionados!');
 }
 function renderHist(){
   var fc=document.getElementById('hist-conta').value;var fm=document.getElementById('hist-mes').value;
   var f=extLancamentos.filter(function(l){return(!fc||l.contaId===fc)&&(!fm||l.data.toString().startsWith(fm))});
   var tot=f.reduce(function(a,l){return a+l.valor},0);
-  document.getElementById('hist-resumo').textContent=f.length+' lançamentos · saldo: '+(tot>=0?'+':'')+fmt(tot);
+  document.getElementById('hist-resumo').textContent=f.length+' lanÃ§amentos Â· saldo: '+(tot>=0?'+':'')+fmt(tot);
   var tb=document.getElementById('hist-tbody');
-  if(!f.length){tb.innerHTML='<tr><td colspan="8" style="text-align:center;padding:24px;color:#9ca3af">Nenhum lançamento.</td></tr>';return}
-  tb.innerHTML=f.map(function(l){var cb=contasBancarias.find(function(c){return c.id===l.contaId});var sc=l.status==='dre'?'dre':l.status==='ignorado'?'ignorado':'imp-pend';return'<tr><td>'+fmtDate(l.data)+'</td><td>'+(cb?cb.banco:'—')+'</td><td>'+nomeEmp(l.empresa)+'</td><td style="color:#9ca3af">'+l.descOrig+'</td><td>'+(l.descClass||'—')+'</td><td style="font-size:11px">'+(l.plano||'—')+'</td><td style="text-align:right;font-weight:600;color:'+(l.valor>=0?'#065F46':'#B91C1C')+'">'+(l.valor>=0?'+':'')+fmt(l.valor)+'</td><td><span class="badge '+sc+'">'+(l.status==='dre'?'Na DRE':l.status==='ignorado'?'Não DRE':'Pendente')+'</span></td></tr>'}).join('');
+  if(!f.length){tb.innerHTML='<tr><td colspan="8" style="text-align:center;padding:24px;color:#9ca3af">Nenhum lanÃ§amento.</td></tr>';return}
+  tb.innerHTML=f.map(function(l){var cb=contasBancarias.find(function(c){return c.id===l.contaId});var sc=l.status==='dre'?'dre':l.status==='ignorado'?'ignorado':'imp-pend';return'<tr><td>'+fmtDate(l.data)+'</td><td>'+(cb?cb.banco:'â')+'</td><td>'+nomeEmp(l.empresa)+'</td><td style="color:#9ca3af">'+l.descOrig+'</td><td>'+(l.descClass||'â')+'</td><td style="font-size:11px">'+(l.plano||'â')+'</td><td style="text-align:right;font-weight:600;color:'+(l.valor>=0?'#065F46':'#B91C1C')+'">'+(l.valor>=0?'+':'')+fmt(l.valor)+'</td><td><span class="badge '+sc+'">'+(l.status==='dre'?'Na DRE':l.status==='ignorado'?'NÃ£o DRE':'Pendente')+'</span></td></tr>'}).join('');
 }
 function exportar(tipo,nome){showAlert('alert-rel','Gerando "'+nome+'" em '+tipo+'...','info')}
 function perguntarIA(texto){
@@ -875,13 +841,13 @@ function perguntarIA(texto){
   var chat=document.getElementById('ia-chat');if(chat.querySelector('.empty-state'))chat.innerHTML='';
   var um=document.createElement('div');um.className='ia-msg user';um.textContent=p;chat.appendChild(um);chat.scrollTop=chat.scrollHeight;
   document.getElementById('ia-loading').style.display='block';
-  var ctx='Empresas: '+empresas.map(function(e){return e.nome+'('+e.tipo+')'}).join(', ')+'. Lançamentos: '+lancamentos.length+'. Contas a pagar pendentes: '+contasPagar.filter(function(c){return c.status!=='Pago'}).length+'. Contas vencidas: '+contasPagar.filter(function(c){return c.status==='Vencido'}).length+'. Extratos pendentes classificação: '+extLancamentos.filter(function(l){return l.status==='pendente'}).length+'.';
-  fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:'VocÃª é um analista financeiro especialista em gestão empresarial. Analise os dados e responda de forma objetiva e prática em portuguÃªs.',messages:[{role:'user',content:'Dados do grupo:\n'+ctx+'\n\nPergunta: '+p}]})})
-  .then(function(r){return r.json()}).then(function(d){document.getElementById('ia-loading').style.display='none';var resp=d.content&&d.content[0]?d.content[0].text:'Sem resposta.';var am=document.createElement('div');am.className='ia-msg ai';am.innerHTML=resp.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');chat.appendChild(am);chat.scrollTop=chat.scrollHeight}).catch(function(){document.getElementById('ia-loading').style.display='none';var am=document.createElement('div');am.className='ia-msg ai';am.textContent='Erro de conexão.';chat.appendChild(am)});
+  var ctx='Empresas: '+empresas.map(function(e){return e.nome+'('+e.tipo+')'}).join(', ')+'. LanÃ§amentos: '+lancamentos.length+'. Contas a pagar pendentes: '+contasPagar.filter(function(c){return c.status!=='Pago'}).length+'. Contas vencidas: '+contasPagar.filter(function(c){return c.status==='Vencido'}).length+'. Extratos pendentes classificaÃ§Ã£o: '+extLancamentos.filter(function(l){return l.status==='pendente'}).length+'.';
+  fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1000,system:'VocÃª Ã© um analista financeiro especialista em gestÃ£o empresarial. Analise os dados e responda de forma objetiva e prÃ¡tica em portuguÃªs.',messages:[{role:'user',content:'Dados do grupo:\n'+ctx+'\n\nPergunta: '+p}]})})
+  .then(function(r){return r.json()}).then(function(d){document.getElementById('ia-loading').style.display='none';var resp=d.content&&d.content[0]?d.content[0].text:'Sem resposta.';var am=document.createElement('div');am.className='ia-msg ai';am.innerHTML=resp.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');chat.appendChild(am);chat.scrollTop=chat.scrollHeight}).catch(function(){document.getElementById('ia-loading').style.display='none';var am=document.createElement('div');am.className='ia-msg ai';am.textContent='Erro de conexÃ£o.';chat.appendChild(am)});
 }
 function renderCfgEmp(){document.getElementById('cfg-emp-list').innerHTML=empresas.map(function(e,i){return'<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f3f4f6"><span style="font-size:11px;color:#9ca3af;min-width:20px;font-weight:600">'+(i+1)+'.</span><input type="text" value="'+e.nome+'" id="cfg-e-'+i+'" style="flex:1"><span style="font-size:10px;padding:2px 8px;border-radius:20px;background:#EFF6FF;color:#1D4ED8;white-space:nowrap">'+e.tipo+'</span></div>'}).join('')}
 function renderCfgPlano(){document.getElementById('cfg-plano-list').innerHTML=planoContas.map(function(p,i){return'<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #f3f4f6"><input type="text" value="'+p.nome+'" id="cfg-p-'+i+'" style="flex:1"><span style="font-size:10px;padding:2px 8px;border-radius:20px;background:#EFF6FF;color:#1D4ED8;white-space:nowrap">'+p.grupo+'</span><button class="btn danger-btn sm" onclick="removePlano('+i+')"><i class="ti ti-trash" style="font-size:11px"></i></button></div>'}).join('')}
-function salvarGrupo(){var v=document.getElementById('cfg-grupo').value.trim();if(v){document.getElementById('titulo-grupo').textContent='Gestão Financeira — '+v;if(cloudAtivo)fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'saveRow',sheet:'Config',row:['grupoNome',v]})});}showAlert('alert-cfg','Salvo!')}
+function salvarGrupo(){var v=document.getElementById('cfg-grupo').value.trim();if(v){document.getElementById('titulo-grupo').textContent='GestÃ£o Financeira â '+v;if(cloudAtivo)fetch(APPS_SCRIPT_URL,{method:'POST',body:JSON.stringify({action:'saveRow',sheet:'Config',row:['grupoNome',v]})});}showAlert('alert-cfg','Salvo!')}
 function salvarEmpresas(){
   for(var i=0;i<empresas.length;i++){var v=document.getElementById('cfg-e-'+i);if(v&&v.value.trim())empresas[i].nome=v.value.trim()}
   if(cloudAtivo){
@@ -907,7 +873,7 @@ function removePlano(i){planoContas.splice(i,1);renderCfgPlano();populateAll()}
 
 var now=new Date();document.getElementById('data-atual').textContent=now.toLocaleDateString('pt-BR',{day:'2-digit',month:'long',year:'numeric'});
 document.getElementById('l-data').valueAsDate=now;
-if(cloudAtivo){loadFromCloud();setInterval(function(){var modalAberto=document.querySelector('.modal-bg.open');if(!modalAberto){loadFromCloud();}},10000);}else{setSyncStatus('error','Configure a URL — veja o guia');populateAll()}
+if(cloudAtivo){loadFromCloud();setInterval(function(){var modalAberto=document.querySelector('.modal-bg.open');if(!modalAberto){loadFromCloud();}},10000);}else{setSyncStatus('error','Configure a URL â veja o guia');populateAll()}
 </script>
 </body>
 </html>
