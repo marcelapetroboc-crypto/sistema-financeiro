@@ -727,7 +727,12 @@ function parseValorSicoob(val){
   var s=String(val).trim();
   var credito=/C\s*$/.test(s);
   var debito=/D\s*$/.test(s);
-  s=s.replace(/[CD\s\*]$/g,'').trim().replace(/\s/g,'').replace(/\./g,'').replace(',','.');
+  // Remover C ou D do final e asterisco
+  s=s.replace(/[\s]*[CD\*][\s]*$/,'').trim();
+  // Remover todos os espaços (inclusive "- 16.693,45" -> "-16.693,45")
+  s=s.replace(/\s/g,'');
+  // Converter formato BR para float
+  s=s.replace(/\./g,'').replace(',','.');
   var n=parseFloat(s);
   if(isNaN(n))return null;
   if(debito)n=-Math.abs(n);
@@ -764,7 +769,7 @@ function processarLinhas(rows,file,conta,result,prog){
     if(ign){lancAtual=null;continue;}
     if(temValor){
       var valor=parseValorSicoob(valorRaw);
-      if(valor!==null&&dataAtual){
+      if(valor!==null&&valor!==0&&dataAtual&&desc&&desc.length>2){
         lancAtual={data:dataAtual,descPrincipal:desc,complementos:[],valor:valor};
         lancsSicoob.push(lancAtual);
       }
